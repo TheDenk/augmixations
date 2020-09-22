@@ -1,6 +1,6 @@
 import numpy as np
 
-from .configs import crop_rect_config_default, process_bos_config_default
+from .configs import crop_rect_config_default, process_box_config_default
 
 
 def generate_rect_coordinates(fg_image,
