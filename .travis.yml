@@ -5,5 +5,9 @@ python:
   - "3.8"
 install:
   - pip install -r requirements.txt
+  - pip install codecov
 script:
   - pytest
+  - pytest --cov=tests/
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
