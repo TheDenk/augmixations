@@ -305,8 +305,8 @@ def correct_box_if_full_side_overlap(rect_info: dict, box_info: dict,
 
 
 def correct_box_if_some_alnge_overlap(rect_info: dict, box_info: dict,
-                                      min_height_when_overlap_ratio: float,
-                                      min_width_when_overlap_ratio: float,
+                                      max_height_intersection: float,
+                                      max_width_intersection: float,
                                       max_overlap_area_ratio: float,
                                       debug: bool = False, label: object = None):
     """
@@ -317,8 +317,8 @@ def correct_box_if_some_alnge_overlap(rect_info: dict, box_info: dict,
     Parameters:
     rect_info (dict) - dictionary with parameters of a rectangle that is cut from another picture
     box_info (dict) - a dictionary with boxing parameters which is possibly overridden
-    min_height_when_overlap_ratio (float) - min part of height that should be exists or box will be changed
-    min_width_when_overlap_ratio (float) - min part of width that should be exists or box will be changed
+    max_height_intersection (float) - max part of height that should be exists or box will be changed
+    max_width_intersection (float) - max part of width that should be exists or box will be changed
     max_overlap_area_ratio (float) - maximum box overlap threshold or box will be dropped
     debug (bool) - debug output flag
     label (object) - the label of the current box to display in debug information
@@ -360,8 +360,8 @@ def correct_box_if_some_alnge_overlap(rect_info: dict, box_info: dict,
         tmp_height = new_box[3] - r_y2
         tmp_width = new_box[2] - r_x2
 
-        bad_height = (tmp_height / start_box_height) < min_height_when_overlap_ratio
-        bad_width = (tmp_width / start_box_width) < min_width_when_overlap_ratio
+        bad_height = (1 - (tmp_height / start_box_height)) > max_height_intersection
+        bad_width = (1 - (tmp_width / start_box_width)) > max_width_intersection
 
         if bad_height:
             new_box[0] = r_x2
@@ -377,8 +377,8 @@ def correct_box_if_some_alnge_overlap(rect_info: dict, box_info: dict,
         tmp_height = new_box[3] - r_y2
         tmp_width = r_x1 - new_box[0]
 
-        bad_height = (tmp_height / start_box_height) < min_height_when_overlap_ratio
-        bad_width = (tmp_width / start_box_width) < min_width_when_overlap_ratio
+        bad_height = (1 - (tmp_height / start_box_height)) > max_height_intersection
+        bad_width = (1 - (tmp_width / start_box_width)) > max_width_intersection
 
         if bad_height:
             new_box[2] = r_x1
@@ -394,8 +394,8 @@ def correct_box_if_some_alnge_overlap(rect_info: dict, box_info: dict,
         tmp_height = r_y1 - new_box[1]
         tmp_width = r_x1 - new_box[0]
 
-        bad_height = (tmp_height / start_box_height) < min_height_when_overlap_ratio
-        bad_width = (tmp_width / start_box_width) < min_width_when_overlap_ratio
+        bad_height = (1 - (tmp_height / start_box_height)) > max_height_intersection
+        bad_width = (1 - (tmp_width / start_box_width)) > max_width_intersection
 
         if bad_height:
             new_box[2] = r_x1
@@ -411,8 +411,8 @@ def correct_box_if_some_alnge_overlap(rect_info: dict, box_info: dict,
         tmp_height = r_y1 - new_box[1]
         tmp_width = new_box[2] - r_x2
 
-        bad_height = (tmp_height / start_box_height) < min_height_when_overlap_ratio
-        bad_width = (tmp_width / start_box_width) < min_width_when_overlap_ratio
+        bad_height = (1 - (tmp_height / start_box_height)) > max_height_intersection
+        bad_width = (1 - (tmp_width / start_box_width)) > max_width_intersection
 
         if bad_height:
             new_box[1] = r_x2
@@ -431,8 +431,8 @@ def correct_background_boxes(bg_boxes: np.array,
                              max_overlap_area_ratio: float,
                              min_height_ratio: float,
                              min_width_ratio: float,
-                             min_height_when_overlap_ratio: float,
-                             min_width_when_overlap_ratio: float,
+                             max_height_intersection: float,
+                             max_width_intersection: float,
                              debug: bool = False,
                              ):
     """
@@ -446,8 +446,8 @@ def correct_background_boxes(bg_boxes: np.array,
     max_overlap_area_ratio (float) - maximum box overlap threshold. If overlap is larger - box will be dropped
     min_height_ratio (float) - min part of height that should be exists or box will be dropped
     min_width_ratio (float) - min part of width that should be exists or box will be dropped
-    min_height_when_overlap_ratio (float) - min part of height that should be exists or box will be change
-    min_width_when_overlap_ratio (float) - min part of width that should be exists or box will be change
+    max_height_intersection (float) - max part of height that should be exists or box will be change
+    max_width_intersection (float) - max part of width that should be exists or box will be change
     debug (bool) - debug output flag
 
     Return:
@@ -513,8 +513,8 @@ def correct_background_boxes(bg_boxes: np.array,
 
         new_box, critical_overlap = correct_box_if_some_alnge_overlap(
             rect_info, start_box_info,
-            min_height_when_overlap_ratio,
-            min_width_when_overlap_ratio,
+            max_height_intersection,
+            max_width_intersection,
             max_overlap_area_ratio,
             debug=debug,
             label=label)
@@ -661,18 +661,18 @@ def cutmix(bg_img: np.array,
     new_bg_boxes, new_bg_labels = correct_background_boxes(
         bg_boxes, bg_labels, fg_rect,
         pb_conf['max_overlap_area_ratio'],
-        pb_conf['min_height_ratio'],
-        pb_conf['min_width_ratio'],
-        pb_conf['min_height_when_overlap_ratio'],
-        pb_conf['min_width_when_overlap_ratio'],
+        pb_conf['min_height_result_ratio'],
+        pb_conf['min_width_result_ratio'],
+        pb_conf['max_height_intersection'],
+        pb_conf['max_width_intersection'],
         debug=True,
     )
 
     new_fg_boxes, new_fg_labels = correct_foreground_boxes(
         fg_boxes, fg_labels, fg_rect,
         pb_conf['max_overlap_area_ratio'],
-        pb_conf['min_height_ratio'],
-        pb_conf['min_width_ratio'],
+        pb_conf['min_height_result_ratio'],
+        pb_conf['min_width_result_ratio'],
     )
 
     return out_img, \
