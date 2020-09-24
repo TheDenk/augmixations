@@ -8,13 +8,13 @@ Current augmentations:
 ## Cutmix  
 ### Default Cutmix for classifiers
 <p>
-<img src="images/cutmix_default.png" width="1000" height="600" title="Default cutmix"/> 
+<img src="images/cutmix_default.png" width="750" height="450" title="Default cutmix"/> 
 </p>  
-  Paper: <a>https://arxiv.org/abs/1905.04899</a>
+<p>  Paper: <a href="https://arxiv.org/abs/1905.04899">https://arxiv.org/abs/1905.04899</a> </p>
 
 ### Current cutmix
 <p>
-<img src="images/cutmix_current.png" width="1000" height="600" title="Current cutmix"/> 
+<img src="images/cutmix_current.png" width="750" height="450" title="Current cutmix"/> 
 </p> 
 
 ## Getting Started
