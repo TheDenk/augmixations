@@ -5,8 +5,17 @@
 Some augmentation for object detection.  
 Current augmentations:  
   - cutmix
-## Cutmix is ...
-picture
+## Cutmix  
+### Default Cutmix for classifiers
+<p>
+<img src="images/cutmix_default.png" width="1000" height="600" title="Default cutmix"/> 
+</p>  
+  Paper: <a>https://arxiv.org/abs/1905.04899</a>
+
+### Current cutmix
+<p>
+<img src="images/cutmix_current.png" width="1000" height="600" title="Current cutmix"/> 
+</p> 
 
 ## Getting Started
     pip install augmixations  
