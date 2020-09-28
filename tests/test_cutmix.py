@@ -70,10 +70,10 @@ def test_shift_fg_rect_and_boxes(params):
      0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
     ({'x1': 75, 'y1': 25, 'x2': 125, 'y2': 125, 'area': 50*100, 'height': 100, 'width': 50},
      {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150, 'area': 100*100, 'height': 100, 'width': 100},
-        0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
+     0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
     ({'x1': 25, 'y1': 75, 'x2': 125, 'y2': 125,  'area': 50*100, 'height': 50, 'width': 100},
-        {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150, 'area': 100*100, 'height': 100, 'width': 100},
-        0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
+     {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150, 'area': 100*100, 'height': 100, 'width': 100},
+     0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
     ({'x1': 25, 'y1': 75, 'x2': 125, 'y2': 125, 'area': 50*100, 'height': 50, 'width': 100},
      {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150, 'area': 100*100, 'height': 100, 'width': 100},
      0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
@@ -252,9 +252,9 @@ def test_correct_box_if_full_side_overlap(params):
      0.4, 0.4, 0.2, np.array([50, 50, 100, 100]), True),
 ])
 def test_correct_box_if_some_alnge_overlap(params):
-    rect_info, box_info, min_h_overlap, min_w_overlap, max_overlap_area, true_box, real_overlap = params
+    rect_info, box_info, max_h_overlap, max_w_overlap, max_overlap_area, true_box, real_overlap = params
     new_box, critical_overlap = correct_box_if_some_alnge_overlap(
-        rect_info, box_info, min_h_overlap, min_w_overlap, max_overlap_area)
+        rect_info, box_info, max_h_overlap, max_w_overlap, max_overlap_area)
     assert real_overlap == critical_overlap
     assert np.array_equal(true_box, new_box)
 
