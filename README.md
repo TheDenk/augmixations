@@ -25,7 +25,7 @@ In progress:
 ## Getting Started
     pip install augmixations  
 
-### Example with defautl parameters  
+### Example with default parameters  
 
   Import:  
 ```python
@@ -65,7 +65,7 @@ rectangle_info = {
 ```
 
 ```python 
-process_box_config_default = {
+process_box_config = {
     # Maximum allowable overlap threshold. 
     # If the overlap ratio is greater than this threshold, then the box is ignored.
     'max_overlap_area_ratio': 0.75,  

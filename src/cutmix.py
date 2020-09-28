@@ -134,6 +134,8 @@ def shift_fg_rect_and_boxes(rect: np.array, boxes: np.array, shift_x: int, shift
 def check_middle_part_overlap_critical(rect_info: dict,
                                        box_info: dict,
                                        max_overlap_area_ratio: float,
+                                       max_height_intersection: float,
+                                       max_width_intersection: float,
                                        debug: bool = False,
                                        label: object = None,):
     """
@@ -159,6 +161,8 @@ def check_middle_part_overlap_critical(rect_info: dict,
 
     b_x1, b_y1 = box_info['x1'], box_info['y1']
     b_x2, b_y2 = box_info['x2'], box_info['y2']
+
+    new_box = np.array([b_x1, b_y1, b_x2, b_y2])
 
     start_box_height = box_info['height']
     start_box_width = box_info['width']
@@ -196,7 +200,7 @@ def check_middle_part_overlap_critical(rect_info: dict,
     if overlap_full_middle_vertical and overlap_full_middle_horizontal:
         overlap_part = image_rect_area / start_box_area
         if debug:
-            print(f'{label} MIDLE MIDDLE OVERLAP')
+            print(f'{label} CRNTRAL MIDDLE OVERLAP')
 
     elif overlap_full_middle_vertical:
         overlap_area = start_box_height * image_rect_width
@@ -213,6 +217,10 @@ def check_middle_part_overlap_critical(rect_info: dict,
     elif overlap_part_middle_left:
         overlap_height = image_rect_height
         overlap_width = r_x2 - b_x1
+
+        if overlap_height / start_box_height > max_height_intersection:
+            new_box[0] = r_x2
+
         overlap_area = overlap_height * overlap_width
         overlap_part = overlap_area / start_box_area
         if debug:
@@ -221,6 +229,10 @@ def check_middle_part_overlap_critical(rect_info: dict,
     elif overlap_part_middle_right:
         overlap_height = image_rect_height
         overlap_width = b_x2 - r_x1
+
+        if overlap_height / start_box_height > max_height_intersection:
+            new_box[2] = r_x1
+
         overlap_area = overlap_height * overlap_width
         overlap_part = overlap_area / start_box_area
         if debug:
@@ -229,6 +241,10 @@ def check_middle_part_overlap_critical(rect_info: dict,
     elif overlap_part_middle_top:
         overlap_height = r_y2 - b_y1
         overlap_width = image_rect_width
+
+        if overlap_width / start_box_width > max_width_intersection:
+            new_box[1] = r_y2
+
         overlap_area = overlap_height * overlap_width
         overlap_part = overlap_area / start_box_area
         if debug:
@@ -237,14 +253,18 @@ def check_middle_part_overlap_critical(rect_info: dict,
     elif overlap_part_middle_bot:
         overlap_height = b_y2 - r_y1
         overlap_width = image_rect_width
+
+        if overlap_width / start_box_width > max_width_intersection:
+            new_box[3] = r_y1
+
         overlap_area = overlap_height * overlap_width
         overlap_part = overlap_area / start_box_area
         if debug:
             print(f'{label} PART MIDDLE BOT VERTICAL OVERLAP')
     else:
-        return False
+        return new_box, False
 
-    return overlap_part > max_overlap_area_ratio
+    return new_box, overlap_part > max_overlap_area_ratio
 
 
 def correct_box_if_full_side_overlap(rect_info: dict, box_info: dict,
@@ -489,9 +509,11 @@ def correct_background_boxes(bg_boxes: np.array,
                 print(f'{label} TOTAL OVERLAP SKIP BY AREA')
             continue
 
-        critical_overlap = check_middle_part_overlap_critical(
+        new_box, critical_overlap = check_middle_part_overlap_critical(
             rect_info, start_box_info,
             max_overlap_area_ratio,
+            max_height_intersection,
+            max_width_intersection,
             debug=debug,
             label=label)
 

@@ -70,43 +70,83 @@ def test_shift_fg_rect_and_boxes(params):
                          [({'x1': 75, 'y1': 25, 'x2': 125, 'y2': 125,
                             'area': 50*100, 'height': 100, 'width': 50},
                            {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                            'area': 100*100, 'height': 100, 'width': 100}, 0.3, True),
+                            'area': 100*100, 'height': 100, 'width': 100},
+                           0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
                              ({'x1': 75, 'y1': 25, 'x2': 125, 'y2': 125,
                                'area': 50*100, 'height': 100, 'width': 50},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.4, False),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
                              ({'x1': 25, 'y1': 75, 'x2': 125, 'y2': 125,
                                'area': 50*100, 'height': 50, 'width': 100},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.3, True),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
                              ({'x1': 25, 'y1': 75, 'x2': 125, 'y2': 125,
                                'area': 50*100, 'height': 50, 'width': 100},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.4, False),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
                              ({'x1': 25, 'y1': 75, 'x2': 125, 'y2': 125,
                                'area': 50*100, 'height': 50, 'width': 100},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.3, True),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
                              ({'x1': 75, 'y1': 75, 'x2': 125, 'y2': 175,
                                'area': 50*100, 'height': 100, 'width': 50},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.4, False),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
                              ({'x1': 75, 'y1': 75, 'x2': 125, 'y2': 175,
                                'area': 50*100, 'height': 100, 'width': 50},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.3, True),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
                              ({'x1': 75, 'y1': 75, 'x2': 175, 'y2': 125,
                                'area': 50*100, 'height': 50, 'width': 100},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.4, False),
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.4, 0.9, 0.9, np.array([50, 50, 150, 150]), False),
                              ({'x1': 75, 'y1': 75, 'x2': 175, 'y2': 125,
                                'area': 50*100, 'height': 50, 'width': 100},
                               {'x1': 50, 'y1': 50, 'x2': 150, 'y2': 150,
-                               'area': 100*100, 'height': 100, 'width': 100}, 0.3, True), ])
+                               'area': 100*100, 'height': 100, 'width': 100},
+                              0.3, 0.9, 0.9, np.array([50, 50, 150, 150]), True),
+
+                             ({'x1': 75, 'y1': 25, 'x2': 225, 'y2': 100,
+                               'area': 75*150, 'height': 75, 'width': 150},
+                              {'x1': 50, 'y1': 50, 'x2': 250, 'y2': 250,
+                               'area': 200*200, 'height': 200, 'width': 200},
+                              0.9, 0.9, 0.6, np.array([50, 100, 250, 250]), False),
+
+                             ({'x1': 75, 'y1': 200, 'x2': 225, 'y2': 300,
+                               'area': 150*100, 'height': 100, 'width': 150},
+                              {'x1': 50, 'y1': 50, 'x2': 250, 'y2': 250,
+                               'area': 200*200, 'height': 200, 'width': 200},
+                              0.9, 0.9, 0.6, np.array([50, 50, 250, 200]), False),
+
+                             ({'x1': 25, 'y1': 75, 'x2': 100, 'y2': 225,
+                               'area': 75*150, 'height': 150, 'width': 75},
+                              {'x1': 50, 'y1': 50, 'x2': 250, 'y2': 250,
+                               'area': 200*200, 'height': 200, 'width': 200},
+                              0.9, 0.6, 0.9, np.array([100, 50, 250, 250]), False),
+
+                             ({'x1': 200, 'y1': 75, 'x2': 300, 'y2': 225,
+                               'area': 100*150, 'height': 150, 'width': 100},
+                              {'x1': 50, 'y1': 50, 'x2': 250, 'y2': 250,
+                               'area': 200*200, 'height': 200, 'width': 200},
+                              0.9, 0.6, 0.9, np.array([50, 50, 200, 250]), False),
+                          ])
 def test_check_middle_part_overlap_critical(params):
-    rect_info, box_info, max_overlap_area_ratio, real_overlap = params
-    critical_overlap = check_middle_part_overlap_critical(rect_info, box_info, max_overlap_area_ratio)
-    assert critical_overlap == real_overlap
+    rect_info, box_info, max_overlap_area_ratio, max_h_overlap, max_w_overlap, true_box, true_overlap = params
+    new_box, critical_overlap = check_middle_part_overlap_critical(
+        rect_info,
+        box_info,
+        max_overlap_area_ratio,
+        max_h_overlap,
+        max_w_overlap,)
+    assert critical_overlap == true_overlap
+    assert np.array_equal(true_box, new_box)
 
 
 @pytest.mark.parametrize('params', [
@@ -320,9 +360,9 @@ def test_correct_box_if_some_alnge_overlap(params):
 ])
 def test_correct_background_boxes(params):
     bg_boxes, bg_labels, image_rect, max_overlap, min_h, min_w, \
-        min_h_overlap, min_w_overlap, real_boxes, real_labels = params
+        max_h_overlap, max_w_overlap, real_boxes, real_labels = params
     boxes, labels = correct_background_boxes(bg_boxes, bg_labels, image_rect,
-                                             max_overlap, min_h, min_w, min_h_overlap, min_w_overlap)
+                                             max_overlap, min_h, min_w, max_h_overlap, max_w_overlap)
     assert np.array_equal(real_boxes, boxes)
     assert np.array_equal(real_labels, labels)
 
