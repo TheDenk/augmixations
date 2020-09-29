@@ -41,6 +41,9 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
   Done.
  
 ## Config Desctiption  
+<p>You can pass configuration data to the cutmix function to override its behavior.</p>  
+  
+### Rectangle parameters
 
 ```python
 rectangle_info = {
@@ -63,24 +66,30 @@ rectangle_info = {
     'insert_max_y': None,  ## By default is a random value from 0 to image width minus rectangle width
 }
 ```
-
-```python 
-process_box_config = {
-    # Maximum allowable overlap threshold. 
-    # If the overlap ratio is greater than this threshold, then the box is ignored.
-    'max_overlap_area_ratio': 0.75,  
-
-    'min_height_result_ratio': 0.25,
-    'min_width_result_ratio': 0.25,
-
-    'max_height_intersection': 0.9,
-    'max_width_intersection': 0.9,
-}
-```
-### Detailed parameters description (pictures):
+  
+### Boxes parameters
 
 <a href="/images/parameter_max_overlap_area_ratio.png">max_overlap_area_ratio</a>  
 <a href="/images/parameter_min_height_and_width_result_ratio.png">min_height_result_ratio and min_width_result_ratio</a>  
 <a href="/images/parameter_max_height_and_width_intersection.png">max_height_intersection and max_width_intersection</a>  
+  
+```python 
+process_box_config = {
+    # Maximum allowable overlap threshold. 
+    # If the overlap ratio is greater than this threshold, then the box is removed.
+    'max_overlap_area_ratio': 0.75,
+
+    # The minimum side threshold for a box. This parameter is checking after all changes of rectangle.
+    # If the ratio of the length of the previous side to the current side is less than a certain threshold, then box will be removed.
+    'min_height_result_ratio': 0.25,
+    'min_width_result_ratio': 0.25,
+
+    # Maximum allowable side overlap threshold
+    # If the image rectangle overlaps the box side more than current threshold, than box will be changed.
+    'max_height_intersection': 0.9,
+    'max_width_intersection': 0.9,
+}
+```
+ 
   
 ___
