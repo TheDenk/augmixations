@@ -8,6 +8,6 @@ install:
   - pip install codecov
 script:
   - pytest
-  - pytest --cov=tests/
+  - pytest --cov=src tests
 after_success:
   - bash <(curl -s https://codecov.io/bash)
