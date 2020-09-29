@@ -118,7 +118,9 @@ def test_check_middle_part_overlap_critical(params):
         box_info,
         max_overlap_area_ratio,
         max_h_overlap,
-        max_w_overlap,)
+        max_w_overlap,
+        debug=True,
+        label='Test box',)
     assert critical_overlap == true_overlap
     assert np.array_equal(true_box, new_box)
 
@@ -156,7 +158,11 @@ def test_check_middle_part_overlap_critical(params):
 ])
 def test_correct_box_if_full_side_overlap(params):
     rect_info, box_info, max_overlap_area_ratio, true_box, real_overlap = params
-    new_box, critical_overlap = correct_box_if_full_side_overlap(rect_info, box_info, max_overlap_area_ratio)
+    new_box, critical_overlap = correct_box_if_full_side_overlap(
+        rect_info, box_info, 
+        max_overlap_area_ratio,
+        debug=True,
+        label='Test box',)
     assert real_overlap == critical_overlap
     assert np.array_equal(true_box, new_box)
 
@@ -256,7 +262,13 @@ def test_correct_box_if_full_side_overlap(params):
 def test_correct_box_if_some_alnge_overlap(params):
     rect_info, box_info, max_h_overlap, max_w_overlap, max_overlap_area, true_box, real_overlap = params
     new_box, critical_overlap = correct_box_if_some_alnge_overlap(
-        rect_info, box_info, max_h_overlap, max_w_overlap, max_overlap_area)
+        rect_info, 
+        box_info, 
+        max_h_overlap, 
+        max_w_overlap, 
+        max_overlap_area,
+        debug=True,
+        label='Test box',)
     assert real_overlap == critical_overlap
     assert np.array_equal(true_box, new_box)
 
@@ -335,8 +347,11 @@ def test_correct_box_if_some_alnge_overlap(params):
 def test_correct_background_boxes(params):
     bg_boxes, bg_labels, image_rect, max_overlap, min_h, min_w, \
         max_h_overlap, max_w_overlap, real_boxes, real_labels = params
-    boxes, labels = correct_background_boxes(bg_boxes, bg_labels, image_rect,
-                                             max_overlap, min_h, min_w, max_h_overlap, max_w_overlap)
+    boxes, labels = correct_background_boxes(
+        bg_boxes, bg_labels, image_rect, 
+        max_overlap, min_h, min_w, 
+        max_h_overlap, max_w_overlap,
+        debug=True)
     assert np.array_equal(real_boxes, boxes)
     assert np.array_equal(real_labels, labels)
 
@@ -395,7 +410,8 @@ def test_correct_background_boxes(params):
 ])
 def test_correct_foreground_boxes(params):
     fg_boxes, fg_labels, rect, max_area, min_h, min_w, real_boxes, real_labels = params
-    boxes, labels = correct_foreground_boxes(fg_boxes, fg_labels, rect, max_area, min_h, min_w)
+    boxes, labels = correct_foreground_boxes(
+        fg_boxes, fg_labels, rect, max_area, min_h, min_w)
     assert np.array_equal(real_boxes, boxes)
     assert np.array_equal(real_labels, labels)
 
