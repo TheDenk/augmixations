@@ -40,9 +40,9 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
 ```
   Done.
  
-## Config Desctiption  
-<p>You can pass configuration data to the cutmix function to override its behavior.</p>  
-  
+## Advansed usage 
+<p>You can pass special configs to the cutmix function to override its behavior.</p>  
+<a href=""></a>
 ### Rectangle parameters
 
 ```python
@@ -69,10 +69,6 @@ rectangle_info = {
   
 ### Boxes parameters
 
-<a href="/images/parameter_max_overlap_area_ratio.png">max_overlap_area_ratio</a>  
-<a href="/images/parameter_min_height_and_width_result_ratio.png">min_height_result_ratio and min_width_result_ratio</a>  
-<a href="/images/parameter_max_height_and_width_intersection.png">max_height_intersection and max_width_intersection</a>  
-  
 ```python 
 process_box_config = {
     # Maximum allowable overlap threshold. 
@@ -89,7 +85,10 @@ process_box_config = {
     'max_height_intersection': 0.9,
     'max_width_intersection': 0.9,
 }
-```
- 
+```  
   
-___
+<p align="center"><img src="images/parameter_max_overlap_area_ratio.png"  title="max_overlap_area_ratio"/></p>  
+<p align="center"><img src="images/parameter_min_height_and_width_result_ratio.png" title="min_height_result_ratio and min_width_result_ratio"/></p>  
+<p align="center"><img src="images/parameter_max_height_and_width_intersection.png" title="max_height_intersection and max_width_intersection"/></p>  
+  
+  
