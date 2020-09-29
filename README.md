@@ -41,54 +41,10 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
   Done.
  
 ## Advansed usage 
+
 <p>You can pass special configs to the cutmix function to override its behavior.</p>  
   
-### Rectangle parameters
-
-```python
-rectangle_info = {
-    'crop_min_x': None,  ## Minimum and maximum left-top X coordinate for rectangle crop
-    'crop_max_x': None,  ## By default using 0
-
-    'crop_min_y': None,  ## Minimum and maximum left-top Y coordinate for rectangle crop
-    'crop_max_y': None,  ## By default using 0
-
-    'min_rect_h': None,  ## Minimum and maximum rectangle height
-    'max_rect_h': None,  ## By default is a random value from 1 to image height minus min X coordinate
-
-    'min_rect_w': None,  ## Minimum and maximum rectangle width
-    'max_rect_w': None,  ## By default is a random value from 1 to image width minus min X coordinate
-
-    'insert_min_x': None,  ## Minimum and maximum left-top X coordinate for rectangle insert
-    'insert_max_x': None,  ## By default is a random value from 0 to image height minus rectangle height
-
-    'insert_min_y': None,  ## Minimum and maximum left-top X coordinate for rectangle insert
-    'insert_max_y': None,  ## By default is a random value from 0 to image width minus rectangle width
-}
-```
-  
-### Boxes parameters
-
-```python 
-process_box_config = {
-    # Maximum allowable overlap threshold. 
-    # If the overlap ratio is greater than this threshold, then the box is removed.
-    'max_overlap_area_ratio': 0.75,
-
-    # The minimum side threshold for a box. This parameter is checking after all changes of rectangle.
-    # If the ratio of the length of the previous side to the current side is less than a certain threshold, then box will be removed.
-    'min_height_result_ratio': 0.25,
-    'min_width_result_ratio': 0.25,
-
-    # Maximum allowable side overlap threshold
-    # If the image rectangle overlaps the box side more than current threshold, than box will be changed.
-    'max_height_intersection': 0.9,
-    'max_width_intersection': 0.9,
-}
-```  
-  
-<p align="center"><img src="images/parameter_max_overlap_area_ratio.png"  title="max_overlap_area_ratio"/></p>  
-<p align="center"><img src="images/parameter_min_height_and_width_result_ratio.png" title="min_height_result_ratio and min_width_result_ratio"/></p>  
-<p align="center"><img src="images/parameter_max_height_and_width_intersection.png" title="max_height_intersection and max_width_intersection"/></p>  
+<a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage"><p>Cutmix Advanced Usage</p></a>  
+ 
   
   
