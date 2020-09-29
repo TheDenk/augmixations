@@ -13,6 +13,6 @@ setup(
     author='Karachev Denis',
     author_email='komedian@bk.ru',
     license='MIT',
-    install_requires=['numpy==1.19.2'],
+    install_requires=['numpy>=1.8.0'],
     packages=find_packages(),
 )
