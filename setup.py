@@ -6,13 +6,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='augmixations',
-    version='0.0.1a',
+    version='0.0.2a0',
     description='Object detection augmentations.',
-    long_description=open(os.path.join(os.dirname(__file__), 'README.txt')).read(),
+    long_description=open(os.path.join(os.path.dirname(__file__), 'README.txt')).read(),
     url='https://github.com/TheDenk/augmixations',
     author='Karachev Denis',
     author_email='komedian@bk.ru',
     license='MIT',
-    install_requires=[],
-    packages=find_packages(exclude=['tests.*', 'tests']),
+    install_requires=['numpy==1.19.2'],
+    packages=find_packages(),
 )
