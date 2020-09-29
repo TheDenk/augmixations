@@ -42,7 +42,7 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
  
 ## Advansed usage 
 <p>You can pass special configs to the cutmix function to override its behavior.</p>  
-<a href=""></a>
+  
 ### Rectangle parameters
 
 ```python
