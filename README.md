@@ -9,6 +9,7 @@ Current augmentations:
 In progress:  
   - mozaic  
   - gridmask  
+  - mixin
    
 ## Cutmix  
 ### Default Cutmix for classifiers
@@ -27,6 +28,7 @@ In progress:
 
 ### Example with default parameters  
 
+
   Import:  
 ```python
 from augmixations import cutmix  
@@ -43,7 +45,7 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
 ## Advansed usage 
 
 <p>You can pass special configs to the cutmix function to override its behavior.</p>  
-  
+<a href="https://github.com/TheDenk/augmixations/examples/cutmix-example.ipynb"><p>Cutmix Jupyter Notebook Example</p></a>    
 <a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage"><p>Cutmix Advanced Usage</p></a>  
  
   

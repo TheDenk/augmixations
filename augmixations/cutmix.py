@@ -177,7 +177,7 @@ def check_middle_part_overlap_critical(rect_info: dict,
     bot_img_side_lower_box = r_y2 >= b_y2
 
     left_img_side_left_box = r_x1 <= b_x1
-    right_img_side_right_box = r_x2 >= b_x2 
+    right_img_side_right_box = r_x2 >= b_x2
 
     overlap_full_middle_vertical = right_img_side_in_box and left_img_side_in_box and \
         top_img_side_higher_box and bot_img_side_lower_box
@@ -688,7 +688,6 @@ def cutmix(bg_img: np.array,
         pb_conf['min_width_result_ratio'],
         pb_conf['max_height_intersection'],
         pb_conf['max_width_intersection'],
-        debug=True,
     )
 
     new_fg_boxes, new_fg_labels = correct_foreground_boxes(

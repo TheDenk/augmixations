@@ -1,38 +1,43 @@
+## Augmixations
 Some augmentation for object detection.  
-Current augmentations:  
+### Current augmentations:  
 * cutmix
 
-In progress:  
+### In progress:  
 * mozaic  
 * gridmask  
+* mixin
 
-Getting Started
-pip install augmixations
+## Getting Started  
 
-Example with default parameters
+```
+pip install augmixations  
+```
 
-Import:  
+## Example with default parameters
+
+### Import:  
 
 ```
 from augmixations import cutmix  
 ```
 
-Using:  
+### Using:  
 
 ```
 #bg_img - The image into which a rectangle will be inserted
-```
-
-```
 #fg_img - The image from which a random rectangle will be cut 
-```
 
-```
 img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels)  
 ```
 
-Done.
+### Done.
 
+## Advansed usage 
+
+<p>You can pass special configs to the cutmix function to override its behavior.</p>  
+  
+<a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage"><p>Cutmix Advanced Usage</p></a> 
  
   
   
