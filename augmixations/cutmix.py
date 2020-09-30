@@ -177,7 +177,7 @@ def check_middle_part_overlap_critical(rect_info: dict,
     bot_img_side_lower_box = r_y2 >= b_y2
 
     left_img_side_left_box = r_x1 <= b_x1
-    right_img_side_right_box = r_x2 >= b_x2
+    right_img_side_right_box = r_x2 >= b_x2 
 
     overlap_full_middle_vertical = right_img_side_in_box and left_img_side_in_box and \
         top_img_side_higher_box and bot_img_side_lower_box
@@ -197,7 +197,8 @@ def check_middle_part_overlap_critical(rect_info: dict,
     overlap_part_middle_bot = top_img_side_in_box and bot_img_side_lower_box and \
         left_img_side_in_box and right_img_side_in_box
 
-    if overlap_full_middle_vertical and overlap_full_middle_horizontal:
+    if top_img_side_in_box and bot_img_side_in_box and \
+       right_img_side_in_box and left_img_side_in_box:
         overlap_part = image_rect_area / start_box_area
         if debug:
             print(f'{label} CRNTRAL MIDDLE OVERLAP')

@@ -20,7 +20,6 @@ crop_rect_config_default = {
 }
 
 process_box_config_default = {
-    # Max possible box overlap area threshold. If overlap part more this threshold - box will be dropped.
     'max_overlap_area_ratio': 0.75,
 
     'min_height_result_ratio': 0.25,
