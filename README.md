@@ -4,7 +4,7 @@
 # augmixations
 Some augmentation for object detection.  
 Current augmentations:  
-  - cutmix
+  - cutmix (<a href="https://github.com/TheDenk/augmixations/examples/cutmix_example.ipynb">Colab Example</a>)   
 
 In progress:  
   - mozaic  
@@ -44,8 +44,7 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
  
 ## Advansed usage 
 
-<p>You can pass special configs to the cutmix function to override its behavior.</p>  
-<a href="https://github.com/TheDenk/augmixations/examples/cutmix-example.ipynb"><p>Cutmix Jupyter Notebook Example</p></a>    
+<p>You can pass special configs to the cutmix function to override its behavior.</p>   
 <a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage"><p>Cutmix Advanced Usage</p></a>  
  
   
