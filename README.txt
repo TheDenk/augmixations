@@ -1,7 +1,7 @@
 ## Augmixations
 Some augmentation for object detection.  
 ### Current augmentations:  
-* cutmix
+* cutmix (<a href="https://github.com/TheDenk/augmixations/examples/cutmix_example.ipynb">Colab Example</a>)
 
 ### In progress:  
 * mozaic  
