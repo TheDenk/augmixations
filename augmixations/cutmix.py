@@ -9,7 +9,7 @@ def generate_rect_coordinates(img_h: int, img_w: int,
                               max_x: int = None, max_y: int = None,
                               min_h: int = None, min_w: int = None,
                               max_h: int = None, max_w: int = None):
-    '''
+    """
     Description:
     Generation of coordinates by which the rectangle will be cut.
 
@@ -22,7 +22,7 @@ def generate_rect_coordinates(img_h: int, img_w: int,
 
     Returns:
     (x1, y1, x2, y2) (tuple of ints) -  Rectangle coordinates
-    '''
+    """
 
     min_h = 1 if min_h is None else min_h
     min_w = 1 if min_w is None else min_w
