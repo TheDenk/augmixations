@@ -24,8 +24,8 @@ def generate_rect_coordinates(img_h: int, img_w: int,
     (x1, y1, x2, y2) (tuple of ints) -  Rectangle coordinates
     """
 
-    min_h = 1 if min_h is None else min_h
-    min_w = 1 if min_w is None else min_w
+    min_h = img_h // 10 if min_h is None else min_h
+    min_w = img_w // 10 if min_w is None else min_w
 
     max_h = img_h if max_h is None else max_h
     max_w = img_w if max_w is None else max_w
@@ -34,7 +34,7 @@ def generate_rect_coordinates(img_h: int, img_w: int,
     rect_w = np.random.randint(min_w, max_w)
 
     min_x = 0 if min_x is None or min_x < 0 else min_x
-    min_y = 0 if min_y is None or min_x < 0 else min_y
+    min_y = 0 if min_y is None or min_y < 0 else min_y
 
     max_x = img_w - rect_w if max_x is None else max_x
     max_y = img_h - rect_h if max_y is None else max_y
@@ -663,7 +663,8 @@ def cutmix(bg_img: np.array,
     img_h, img_w, _ = bg_img.shape
 
     fg_rect = generate_rect_coordinates(
-        img_h=fg_img.shape[0], img_w=fg_img.shape[1],
+        img_h=min(bg_img.shape[0], fg_img.shape[0]), 
+        img_w=min(bg_img.shape[1], fg_img.shape[1]),
         min_x=cr_conf['crop_min_x'], min_y=cr_conf['crop_min_y'],
         max_x=cr_conf['crop_max_x'], max_y=cr_conf['crop_max_y'],
         min_h=cr_conf['min_rect_h'], min_w=cr_conf['min_rect_w'],
