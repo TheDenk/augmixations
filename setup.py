@@ -22,7 +22,7 @@ setup(
     name='augmixations',
     version=get_version(),
     description='Object detection augmentations.',
-    long_description=open(os.path.join(os.path.dirname(__file__), 'README.txt')).read(),
+    long_description=read('README.txt'),
     long_description_content_type='text/markdown',
     url='https://github.com/TheDenk/augmixations',
     author='Karachev Denis',
