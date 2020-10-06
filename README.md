@@ -49,5 +49,8 @@ img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
 <p>You can pass special configs to the cutmix function to override its behavior.</p>   
 <a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage"><p>Cutmix Advanced Usage</p></a>  
  
+
+## Contacts
+<p>Issues should be raised directly in the repository. For professional support and recommendations please <a>komedian@bk.ru</a>.</p>
   
   

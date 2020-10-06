@@ -27,8 +27,8 @@ def generate_rect_coordinates(img_h: int, img_w: int,
     min_h = img_h // 10 if min_h is None else min_h
     min_w = img_w // 10 if min_w is None else min_w
 
-    max_h = img_h if max_h is None else max_h
-    max_w = img_w if max_w is None else max_w
+    max_h = img_h // 3 if max_h is None else max_h
+    max_w = img_w // 3 if max_w is None else max_w
 
     rect_h = np.random.randint(min_h, max_h)
     rect_w = np.random.randint(min_w, max_w)
@@ -663,7 +663,7 @@ def cutmix(bg_img: np.array,
     img_h, img_w, _ = bg_img.shape
 
     fg_rect = generate_rect_coordinates(
-        img_h=min(bg_img.shape[0], fg_img.shape[0]), 
+        img_h=min(bg_img.shape[0], fg_img.shape[0]),
         img_w=min(bg_img.shape[1], fg_img.shape[1]),
         min_x=cr_conf['crop_min_x'], min_y=cr_conf['crop_min_y'],
         max_x=cr_conf['crop_max_x'], max_y=cr_conf['crop_max_y'],
