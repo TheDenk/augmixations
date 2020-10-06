@@ -4,9 +4,23 @@ import os
 from setuptools import setup, find_packages
 
 
+def read(filename):
+    with open(os.path.join(os.path.dirname(__file__), filename)) as f:
+        file_content = f.read()
+    return file_content
+
+
+def get_version():
+    """Get version from the package without actually importing it."""
+    init = read('augmixations/__init__.py')
+    for line in init.split('\n'):
+        if line.startswith('__version__'):
+            return eval(line.split('=')[1])
+
+
 setup(
     name='augmixations',
-    version='0.0.2',
+    version=get_version(),
     description='Object detection augmentations.',
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.txt')).read(),
     long_description_content_type='text/markdown',
