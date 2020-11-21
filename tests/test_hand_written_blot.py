@@ -20,3 +20,30 @@ def test_draw_bezier_curve(params, hand_written_blot):
     p = hand_written_blot.draw_bezier_curve(img, points)
 
     assert type(img) == type(p)
+
+
+@pytest.mark.parametrize('params', [(np.ones((100, 100, 3), dtype=np.uint8),
+                                     [{'x': 10, 'y': 10, 'w': 50, 'h': 50, 'points_intensivity': 0.9,
+                                       'incline': 0, 'transparency': 0.1, 'repeat': 5}]), ])
+def test_make_handwriting(params, hand_written_blot):
+    img, configs = params
+    p = hand_written_blot.make_handwriting(img, configs)
+
+    assert type(img) == type(p)
+
+
+@pytest.mark.parametrize('params', [(100, 100), ])
+def test_generate_configs(params, hand_written_blot):
+    img_h, img_w = params
+    configs = hand_written_blot.generate_configs(img_h, img_w)
+
+    assert isinstance(configs, list)
+
+
+@pytest.mark.parametrize('params', [(np.ones((100, 100, 3), dtype=np.uint8)), ])
+def test_apply(params, hand_written_blot):
+    img = params
+    out_img = hand_written_blot.apply(img)
+
+    assert type(img) == type(out_img)
+    assert img.shape == out_img.shape
