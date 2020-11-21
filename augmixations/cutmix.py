@@ -1,51 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+from .utils import generate_rect_coordinates
 from .configs import crop_rect_config_default, process_box_config_default
-
-
-def generate_rect_coordinates(img_h: int, img_w: int,
-                              min_x: int = None, min_y: int = None,
-                              max_x: int = None, max_y: int = None,
-                              min_h: int = None, min_w: int = None,
-                              max_h: int = None, max_w: int = None):
-    """
-    Description:
-    Generation of coordinates by which the rectangle will be cut.
-
-    Parameters:
-    img_h (int), img_w (int) - Image parameters used to calculate the maximum value of a rectangle
-    min_x (int), min_y (int) - Minimum allowed coordinates of the upper left point
-    max_x (int), max_y (int) - Maximum allowed coordinates of the upper left point
-    min_h (int), min_w (int) - Minimum allowed width and height of a rectangle
-    max_h (int), max_w (int) - Maximum allowed width and height of a rectangle
-
-    Returns:
-    (x1, y1, x2, y2) (tuple of ints) -  Rectangle coordinates
-    """
-
-    min_h = img_h // 10 if min_h is None else min_h
-    min_w = img_w // 10 if min_w is None else min_w
-
-    max_h = img_h // 3 if max_h is None else max_h
-    max_w = img_w // 3 if max_w is None else max_w
-
-    rect_h = np.random.randint(min_h, max_h)
-    rect_w = np.random.randint(min_w, max_w)
-
-    min_x = 0 if min_x is None or min_x < 0 else min_x
-    min_y = 0 if min_y is None or min_y < 0 else min_y
-
-    max_x = img_w - rect_w if max_x is None else max_x
-    max_y = img_h - rect_h if max_y is None else max_y
-
-    x1 = np.random.randint(min_x, max_x)
-    x2 = x1 + rect_w if x1 + rect_w <= img_w else img_w
-
-    y1 = np.random.randint(min_y, max_y)
-    y2 = y1 + rect_h if y1 + rect_h <= img_h else img_h
-
-    return x1, y1, x2, y2
 
 
 def insert_image_in_background(bg_img: np.array, rect_img: np.array,

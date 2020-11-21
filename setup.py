@@ -28,6 +28,6 @@ setup(
     author='Karachev Denis',
     author_email='komedian@bk.ru',
     license='MIT',
-    install_requires=['numpy>=1.8.0'],
+    install_requires=['numpy>=1.11.1', 'opencv-python>=4.1.1', 'opencv-python-headless>=4.1.1'],
     packages=find_packages(),
 )

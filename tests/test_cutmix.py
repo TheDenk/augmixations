@@ -2,26 +2,10 @@
 import numpy as np
 import pytest
 
-from augmixations.cutmix import generate_rect_coordinates, insert_image_in_background, \
+from augmixations.cutmix import insert_image_in_background, \
     shift_fg_rect_and_boxes, check_middle_part_overlap_critical, \
     correct_box_if_full_side_overlap, correct_box_if_some_alnge_overlap, \
     correct_background_boxes, correct_foreground_boxes, cutmix
-
-
-@pytest.mark.parametrize('params',
-                         [(500, 500, 0, 0, 500, 500, 100, 100, 300, 300),
-                          (1000, 2000, 0, 0, 2000, 1000, 300, 300, 600, 600),
-                             (500, 1000, 0, 0, 500, 500, None, None, None, None),
-                             (500, 700, None, None, None, None, None, None, None, None),
-                             (300, 300, None, None, None, None, 100, 100, 300, 300)])
-def test_generate_rect_coordinates(params):
-    img_h, img_w, min_x, min_y, max_x, max_y, min_h, min_w, max_h, max_w = params
-    rect = generate_rect_coordinates(img_h, img_w, min_x, min_y, max_x, max_y, min_h, min_w, max_h, max_w)
-    x1, y1, x2, y2 = rect
-
-    assert x1 < x2 and y1 < y2
-    assert x1 >= 0 and y1 >= 0
-    assert x2 <= img_w and y2 <= img_h
 
 
 @pytest.mark.parametrize('params',
@@ -115,7 +99,7 @@ def test_shift_fg_rect_and_boxes(params):
     ({'x1': 55, 'y1': 55, 'x2': 245, 'y2': 245, 'area': 190*190, 'height': 190, 'width': 190},
      {'x1': 50, 'y1': 50, 'x2': 250, 'y2': 250, 'area': 200*200, 'height': 200, 'width': 200},
      0.5, 0.9, 0.9, np.array([50, 50, 250, 250]), True),
-    
+
     # Вставленная картинка с полным вертикальным перекрытием по центру
     ({'x1': 55, 'y1': 0, 'x2': 245, 'y2': 300, 'area': 190*300, 'height': 300, 'width': 190},
      {'x1': 50, 'y1': 50, 'x2': 250, 'y2': 250, 'area': 200*200, 'height': 200, 'width': 200},
@@ -175,7 +159,7 @@ def test_check_middle_part_overlap_critical(params):
 def test_correct_box_if_full_side_overlap(params):
     rect_info, box_info, max_overlap_area_ratio, true_box, real_overlap = params
     new_box, critical_overlap = correct_box_if_full_side_overlap(
-        rect_info, box_info, 
+        rect_info, box_info,
         max_overlap_area_ratio,
         debug=True,
         label='Test box',)
@@ -278,10 +262,10 @@ def test_correct_box_if_full_side_overlap(params):
 def test_correct_box_if_some_alnge_overlap(params):
     rect_info, box_info, max_h_overlap, max_w_overlap, max_overlap_area, true_box, real_overlap = params
     new_box, critical_overlap = correct_box_if_some_alnge_overlap(
-        rect_info, 
-        box_info, 
-        max_h_overlap, 
-        max_w_overlap, 
+        rect_info,
+        box_info,
+        max_h_overlap,
+        max_w_overlap,
         max_overlap_area,
         debug=True,
         label='Test box',)
@@ -369,7 +353,7 @@ def test_correct_box_if_some_alnge_overlap(params):
     (np.array([np.array([50, 50, 150, 150])]), np.array(['1'], dtype=object),
      np.array([55, 55, 145, 145]), 0.5, 0.25, 0.25, 0.9, 0.9,
      np.array([]), np.array([])),
-    
+
     # Перекрытие центральной части
     (np.array([np.array([50, 50, 150, 150])]), np.array(['1'], dtype=object),
      np.array([55, 55, 145, 145]), 0.5, 0.25, 0.25, 0.9, 0.9,
@@ -384,8 +368,8 @@ def test_correct_background_boxes(params):
     bg_boxes, bg_labels, image_rect, max_overlap, min_h, min_w, \
         max_h_overlap, max_w_overlap, real_boxes, real_labels = params
     boxes, labels = correct_background_boxes(
-        bg_boxes, bg_labels, image_rect, 
-        max_overlap, min_h, min_w, 
+        bg_boxes, bg_labels, image_rect,
+        max_overlap, min_h, min_w,
         max_h_overlap, max_w_overlap,
         debug=True)
     assert np.array_equal(real_boxes, boxes)
@@ -467,8 +451,8 @@ def test_correct_foreground_boxes(params):
      np.array([np.array([50, 50, 150, 150]), np.array([125, 125, 225, 225])]),
      np.array(['1', '2'], dtype=np.str)
      ),
-     # Игнорируем боксы по минимальной высоте
-     (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
+    # Игнорируем боксы по минимальной высоте
+    (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
      np.array([np.array([50, 50, 150, 150])]),
      np.array(['1'], dtype=np.str),
      np.ones((600, 800, 3), dtype=np.uint8)*255,
@@ -476,37 +460,37 @@ def test_correct_foreground_boxes(params):
      np.array(['2'], dtype=np.str),
      {'crop_min_x': 75, 'crop_max_x': 76, 'crop_min_y': 175, 'crop_max_y': 176, 'min_rect_h': 150,
       'max_rect_h': 151, 'min_rect_w': 150, 'max_rect_w': 151, 'insert_min_x': 100,
-      'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, }, 
+      'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, },
      {
         'max_overlap_area_ratio': 0.99,
-        'min_height_result_ratio': 0.7,
+         'min_height_result_ratio': 0.7,
         'min_width_result_ratio': 0.25,
         'max_height_intersection': 0.9,
         'max_width_intersection': 0.3,
-     },
-     np.array([]),
-     np.array([]),
-     # Игнорируем боксы по минимальной ширине
-     ),
-     (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
+    },
+        np.array([]),
+        np.array([]),
+        # Игнорируем боксы по минимальной ширине
+    ),
+    (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
      np.array([np.array([50, 50, 150, 150])]),
      np.array(['1'], dtype=np.str),
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
      np.array(['2'], dtype=np.str),
-     {'crop_min_x': 175, 'crop_max_x': 176, 'crop_min_y': 75, 'crop_max_y': 76, 
-      'min_rect_h': 150, 'max_rect_h': 151, 'min_rect_w': 150, 'max_rect_w': 151, 
-      'insert_min_x': 100, 'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, }, 
+     {'crop_min_x': 175, 'crop_max_x': 176, 'crop_min_y': 75, 'crop_max_y': 76,
+      'min_rect_h': 150, 'max_rect_h': 151, 'min_rect_w': 150, 'max_rect_w': 151,
+      'insert_min_x': 100, 'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, },
      {
-        'max_overlap_area_ratio': 0.99,
+         'max_overlap_area_ratio': 0.99,
         'min_height_result_ratio': 0.25,
         'min_width_result_ratio': 0.7,
         'max_height_intersection': 0.3,
         'max_width_intersection': 0.9,
-     },
-     np.array([]),
-     np.array([]),
-     ),
+    },
+        np.array([]),
+        np.array([]),
+    ),
 
 ])
 def test_cutmix(params):
