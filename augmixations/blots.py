@@ -9,12 +9,14 @@ class HandWrittenBlot:
         try:
             import cv2
         except ImportError:
-            raise Exception('OpenCV not found. Please install it. Run command: pip install opencv-python>=4.1.1')
+            raise Exception('''OpenCV library not found. Please install it.
+                Run command: pip install opencv-python>=4.1.1''')
 
         try:
             import bezier
         except ImportError:
-            raise Exception('Bezier not found. Please install it. Run command: pip install bezier>=2020.5.19')
+            raise Exception('''Bezier library not found. Please install it.
+                Run command: pip install bezier>=2020.5.19''')
 
         self.cv2 = cv2
         self.bezier = bezier
