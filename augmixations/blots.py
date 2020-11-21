@@ -1,13 +1,23 @@
 # -*- coding: utf-8 -*-
-import cv2
-import bezier
 import numpy as np
 
 from .utils import generate_rect_coordinates, unpack_mm_params, generate_parameter
 
 
-class HandMarking:
+class HandWrittenBlot:
     def __init__(self, height, width, incline, intensivity, transparency, count):
+        try:
+            import cv2
+        except ImportError:
+            raise Exception('OpenCV not found. Please install it. Run command: pip install opencv-python>=4.1.1')
+
+        try:
+            import bezier
+        except ImportError:
+            raise Exception('Bezier not found. Please install it. Run command: pip install bezier>=2020.5.19')
+
+        self.cv2 = cv2
+        self.bezier = bezier
 
         self.min_h, self.max_h = unpack_mm_params(height)
         self.min_w, self.max_w = unpack_mm_params(width)
@@ -58,7 +68,7 @@ class HandMarking:
     def draw_bezier_curve(self, image, points):
         img = image.copy()
 
-        curve = bezier.Curve(points, degree=len(points[0]) - 1)
+        curve = self.bezier.Curve(points, degree=len(points[0]) - 1)
 
         x, y = curve.evaluate(0.01)
         x1, y1 = int(x), int(y)
@@ -66,7 +76,7 @@ class HandMarking:
         for point in np.arange(0.01, 0.99, 0.02):
             x, y = curve.evaluate(point)
             x2, y2 = int(x), int(y)
-            img = cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), np.random.randint(1, 5))
+            img = self.cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), np.random.randint(1, 5))
             x1, y1 = x2, y2
 
         return img
@@ -87,7 +97,7 @@ class HandMarking:
                 )
                 fg_img = self.draw_bezier_curve(fg_img, points)
 
-            bg_img = cv2.addWeighted(bg_img, config['transparency'], fg_img, 1 - config['transparency'], 0)
+            bg_img = self.cv2.addWeighted(bg_img, config['transparency'], fg_img, 1 - config['transparency'], 0)
 
         return bg_img
 
