@@ -34,10 +34,11 @@ In progress:
 ## Handwritten Blots
 #### Dependencies  
 
-  - <b style="color:#55ff55">numpy>=1.11.1</b>
-  - <b style="color:#ff5555">bezier==2020.5.19 </b>
-  - <b style="color:#ff5555">opencv-python>=4.1.1</b>
-
+```diff
++ numpy>=1.11.1
+- bezier==2020.5.19
+- opencv-python>=4.1.1
+```
 <p>
 <img src="images/blots.png" width="600" height="200" title="Blots"/> 
 </p> 
