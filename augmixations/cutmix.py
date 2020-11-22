@@ -601,11 +601,11 @@ It also changes first and second boxes and labels.
         self.pb_conf = cutmix_process_box_config if process_boxes_config is None else process_boxes_config
 
         for def_key, def_val in cutmix_crop_rect_config.items():
-            if def_key not in self.cr_conf.keys():
+            if def_key not in self.cr_conf.keys() or self.cr_conf[def_key] is None:
                 self.cr_conf[def_key] = def_val
 
         for def_key, def_val in cutmix_process_box_config.items():
-            if def_key not in self.pb_conf.keys():
+            if def_key not in self.pb_conf.keys() or self.pb_conf[def_key] is None:
                 self.pb_conf[def_key] = def_val
 
     def apply(self,

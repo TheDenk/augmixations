@@ -16,7 +16,7 @@ class HandWrittenBlot:
     params (dict) - Config with blot parameters (incline, transparency, intensivity, count)
     """
 
-    def __init__(self, rect_config: dict, params: dict):
+    def __init__(self, rect_config: dict = None, params: dict = None):
         try:
             import cv2
         except ImportError:
@@ -32,15 +32,15 @@ class HandWrittenBlot:
         self.cv2 = cv2
         self.bezier = bezier
 
-        self.rect_config = rect_config
-        self.params = params
+        self.rect_config = rect_config if rect_config is not None else blot_rect_config
+        self.params = params if params is not None else blot_params
 
         for def_key, def_val in blot_rect_config.items():
-            if def_key not in self.rect_config.keys():
+            if def_key not in self.rect_config.keys() or self.rect_config[def_key] is None:
                 self.rect_config[def_key] = def_val
 
         for def_key, def_val in blot_params.items():
-            if def_key not in self.params.keys():
+            if def_key not in self.params.keys() or self.params[def_key] is None:
                 self.params[def_key] = def_val
 
         self.min_x, self.max_x = unpack_mm_params(rect_config['x'])
