@@ -10,7 +10,7 @@ Warning: This library does not install all dependencies for each augmentation.
 
 I wrote dependencies in each description and you should install it by yourself.  
   
-For more details you can see the <a href="">wiki</a> page of this repo.  
+For more details you can see the <a href="https://github.com/TheDenk/augmixations/wiki">wiki</a> page of this repo.  
 
 
 Current augmentations:  
