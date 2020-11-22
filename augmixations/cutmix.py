@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from .utils import generate_rect_coordinates
-from .configs import crop_rect_config_default, process_box_config_default
+from .utils import generate_rect_coordinates, unpack_mm_params
+from .configs import cutmix_crop_rect_config, cutmix_process_box_config
 
 
 def insert_image_in_background(bg_img: np.array, rect_img: np.array,
@@ -583,78 +583,114 @@ def correct_foreground_boxes(fg_boxes: np.array,
     return new_boxes, new_labels
 
 
-def cutmix(bg_img: np.array,
-           bg_boxes: np.array,
-           bg_labels: np.array,
-
-           fg_img: np.array,
-           fg_boxes: np.array,
-           fg_labels: np.array,
-
-           crop_rect_config: dict = None,
-           process_boxes_config: dict = None,
-           ):
+class Cutmix:
     """
     Description:
-    Cutmix function. It function crop part of image from second image and paste it into first image.
-    Function also changes first and second boxes and labels.
+Cutmix class. This class allows crop part of image from second image and paste it into first image.
+It also changes first and second boxes and labels.
 
-    Parameters:
-
-    bg_img (np.array) - Background image. The image into which another image will be inserted.
-    bg_boxes (np.array) - Boxes for background image.
-    bg_labels (np.array) - Labels for background image.
-
-    fg_img (np.array) - The image from which the rectangle will be cut
-    fg_boxes (np.array) - Boxes for foreground image.
-    fg_labels (np.array) - Labels for foreground image.
+    Init Parameters:
 
     crop_rect_config (dict) - Config with parameters of cut and insert coordinates
     process_boxes_config (dict) - Config with parameters of maximum box area overlap and maximum box side overlap
-    Return:
-    (new_image, new_boxes, new_labels) - New image, boxes and labels
     """
-    cr_conf = crop_rect_config_default if crop_rect_config is None else crop_rect_config
-    pb_conf = process_box_config_default if process_boxes_config is None else process_boxes_config
 
-    img_h, img_w, _ = bg_img.shape
+    def __init__(self, crop_rect_config: dict = None,
+                 process_boxes_config: dict = None,):
+        self.cr_conf = cutmix_crop_rect_config if crop_rect_config is None else crop_rect_config
+        self.pb_conf = cutmix_process_box_config if process_boxes_config is None else process_boxes_config
 
-    fg_rect = generate_rect_coordinates(
-        img_h=min(bg_img.shape[0], fg_img.shape[0]),
-        img_w=min(bg_img.shape[1], fg_img.shape[1]),
-        min_x=cr_conf['crop_min_x'], min_y=cr_conf['crop_min_y'],
-        max_x=cr_conf['crop_max_x'], max_y=cr_conf['crop_max_y'],
-        min_h=cr_conf['min_rect_h'], min_w=cr_conf['min_rect_w'],
-        max_h=cr_conf['max_rect_h'], max_w=cr_conf['max_rect_w'],
-    )
+        for def_key, def_val in cutmix_crop_rect_config.items():
+            if def_key not in self.cr_conf.keys():
+                self.cr_conf[def_key] = def_val
 
-    x1, y1, x2, y2 = fg_rect
-    cropped_img = fg_img[y1:y2, x1:x2]
+        for def_key, def_val in cutmix_process_box_config.items():
+            if def_key not in self.pb_conf.keys():
+                self.pb_conf[def_key] = def_val
 
-    out_img, (shift_x, shift_y) = insert_image_in_background(
-        bg_img, cropped_img, x1, y1,
-        min_x=cr_conf['insert_min_x'], min_y=cr_conf['insert_min_y'],
-        max_x=cr_conf['insert_max_x'], max_y=cr_conf['insert_max_y'],
-    )
+    def apply(self,
+              bg_img: np.array,
+              bg_boxes: np.array,
+              bg_labels: np.array,
 
-    fg_rect, fg_boxes = shift_fg_rect_and_boxes(fg_rect, fg_boxes, shift_x, shift_y)
+              fg_img: np.array,
+              fg_boxes: np.array,
+              fg_labels: np.array):
+        """
+        Description:
+        Cutmix function. It function crop part of image from second image and paste it into first image.
+        Function also changes first and second boxes and labels.
 
-    new_bg_boxes, new_bg_labels = correct_background_boxes(
-        bg_boxes, bg_labels, fg_rect,
-        pb_conf['max_overlap_area_ratio'],
-        pb_conf['min_height_result_ratio'],
-        pb_conf['min_width_result_ratio'],
-        pb_conf['max_height_intersection'],
-        pb_conf['max_width_intersection'],
-    )
+        Parameters:
 
-    new_fg_boxes, new_fg_labels = correct_foreground_boxes(
-        fg_boxes, fg_labels, fg_rect,
-        pb_conf['max_overlap_area_ratio'],
-        pb_conf['min_height_result_ratio'],
-        pb_conf['min_width_result_ratio'],
-    )
+        bg_img (np.array) - Background image. The image into which another image will be inserted.
+        bg_boxes (np.array) - Boxes for background image.
+        bg_labels (np.array) - Labels for background image.
 
-    return out_img, \
-        np.array(new_bg_boxes + new_fg_boxes, dtype=np.float32), \
-        np.array(new_bg_labels + new_fg_labels)
+        fg_img (np.array) - The image from which the rectangle will be cut
+        fg_boxes (np.array) - Boxes for foreground image.
+        fg_labels (np.array) - Labels for foreground image.
+
+        Return:
+        (new_image, new_boxes, new_labels) - New image, boxes and labels
+        """
+        crop_min_x, crop_max_x = unpack_mm_params(self.cr_conf['crop_x'])
+        crop_min_y, crop_max_y = unpack_mm_params(self.cr_conf['crop_y'])
+        rect_min_h, rect_max_h = unpack_mm_params(self.cr_conf['rect_h'])
+        rect_min_w, rect_max_w = unpack_mm_params(self.cr_conf['rect_w'])
+
+        insert_min_x, insert_max_x = unpack_mm_params(self.cr_conf['insert_x'])
+        insert_min_y, insert_max_y = unpack_mm_params(self.cr_conf['insert_y'])
+
+        img_h, img_w, _ = bg_img.shape
+
+        fg_rect = generate_rect_coordinates(
+            img_h=min(bg_img.shape[0], fg_img.shape[0]),
+            img_w=min(bg_img.shape[1], fg_img.shape[1]),
+            min_x=crop_min_x, min_y=crop_min_y,
+            max_x=crop_max_x, max_y=crop_max_y,
+            min_h=rect_min_h, min_w=rect_min_w,
+            max_h=rect_max_h, max_w=rect_max_w,
+        )
+
+        x1, y1, x2, y2 = fg_rect
+        cropped_img = fg_img[y1:y2, x1:x2]
+
+        out_img, (shift_x, shift_y) = insert_image_in_background(
+            bg_img, cropped_img, x1, y1,
+            min_x=insert_min_x, min_y=insert_min_y,
+            max_x=insert_max_x, max_y=insert_max_y,
+        )
+
+        fg_rect, fg_boxes = shift_fg_rect_and_boxes(fg_rect, fg_boxes, shift_x, shift_y)
+
+        new_bg_boxes, new_bg_labels = correct_background_boxes(
+            bg_boxes, bg_labels, fg_rect,
+            self.pb_conf['max_overlap_area_ratio'],
+            self.pb_conf['min_height_result_ratio'],
+            self.pb_conf['min_width_result_ratio'],
+            self.pb_conf['max_height_intersection'],
+            self.pb_conf['max_width_intersection'],
+        )
+
+        new_fg_boxes, new_fg_labels = correct_foreground_boxes(
+            fg_boxes, fg_labels, fg_rect,
+            self.pb_conf['max_overlap_area_ratio'],
+            self.pb_conf['min_height_result_ratio'],
+            self.pb_conf['min_width_result_ratio'],
+        )
+
+        return out_img, \
+            np.array(new_bg_boxes + new_fg_boxes, dtype=np.float32), \
+            np.array(new_bg_labels + new_fg_labels)
+
+    def __call__(self,
+                 bg_img: np.array,
+                 bg_boxes: np.array,
+                 bg_labels: np.array,
+
+                 fg_img: np.array,
+                 fg_boxes: np.array,
+                 fg_labels: np.array):
+
+        return self.apply(bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels)

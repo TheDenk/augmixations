@@ -5,7 +5,7 @@ import pytest
 from augmixations.cutmix import insert_image_in_background, \
     shift_fg_rect_and_boxes, check_middle_part_overlap_critical, \
     correct_box_if_full_side_overlap, correct_box_if_some_alnge_overlap, \
-    correct_background_boxes, correct_foreground_boxes, cutmix
+    correct_background_boxes, correct_foreground_boxes, Cutmix
 
 
 @pytest.mark.parametrize('params',
@@ -445,9 +445,8 @@ def test_correct_foreground_boxes(params):
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
      np.array(['2'], dtype=np.str),
-     {'crop_min_x': 75, 'crop_max_x': 76, 'crop_min_y': 75, 'crop_max_y': 76, 'min_rect_h': 150,
-      'max_rect_h': 151, 'min_rect_w': 150, 'max_rect_w': 151, 'insert_min_x': 100,
-      'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, }, None,
+     {'crop_x': (75, 76), 'crop_y': (75, 76), 'rect_h': (150, 151), 'rect_w': (150, 151),
+      'insert_x': (100, 101), 'insert_y': (100, 101), }, None,
      np.array([np.array([50, 50, 150, 150]), np.array([125, 125, 225, 225])]),
      np.array(['1', '2'], dtype=np.str)
      ),
@@ -458,9 +457,8 @@ def test_correct_foreground_boxes(params):
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
      np.array(['2'], dtype=np.str),
-     {'crop_min_x': 75, 'crop_max_x': 76, 'crop_min_y': 175, 'crop_max_y': 176, 'min_rect_h': 150,
-      'max_rect_h': 151, 'min_rect_w': 150, 'max_rect_w': 151, 'insert_min_x': 100,
-      'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, },
+     {'crop_x': (75, 76), 'crop_y': (175, 176), 'rect_h': (150, 151),
+      'rect_w': (150, 151), 'insert_x': (100, 101), 'insert_y': (100, 101), },
      {
         'max_overlap_area_ratio': 0.99,
          'min_height_result_ratio': 0.7,
@@ -478,11 +476,11 @@ def test_correct_foreground_boxes(params):
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
      np.array(['2'], dtype=np.str),
-     {'crop_min_x': 175, 'crop_max_x': 176, 'crop_min_y': 75, 'crop_max_y': 76,
-      'min_rect_h': 150, 'max_rect_h': 151, 'min_rect_w': 150, 'max_rect_w': 151,
-      'insert_min_x': 100, 'insert_max_x': 101, 'insert_min_y': 100, 'insert_max_y': 101, },
+     {'crop_x': (175, 176), 'crop_y': (75, 76),
+      'rect_h': (150, 151), 'rect_w': (150, 151),
+      'insert_x': (100, 101), 'insert_y': (100, 101), },
      {
-         'max_overlap_area_ratio': 0.99,
+        'max_overlap_area_ratio': 0.99,
         'min_height_result_ratio': 0.25,
         'min_width_result_ratio': 0.7,
         'max_height_intersection': 0.3,
@@ -491,12 +489,12 @@ def test_correct_foreground_boxes(params):
         np.array([]),
         np.array([]),
     ),
-
 ])
 def test_cutmix(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
         crop_rect_config, process_boxes_config, real_boxes, real_labels = params
 
+    cutmix = Cutmix(crop_rect_config, process_boxes_config)
     img, boxes, labels = cutmix(
         bg_img,
         bg_boxes,
@@ -504,10 +502,41 @@ def test_cutmix(params):
 
         fg_img,
         fg_boxes,
-        fg_labels,
-
-        crop_rect_config,
-        process_boxes_config,)
+        fg_labels,)
 
     assert np.array_equal(real_boxes, boxes)
     assert np.array_equal(real_labels, labels)
+
+
+# Проверка, что метод не падает, когда некоторые параметры отсутствуют
+@pytest.mark.parametrize('params', [
+    (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
+     np.array([np.array([50, 50, 150, 150])]),
+     np.array(['1'], dtype=np.str),
+     np.ones((600, 800, 3), dtype=np.uint8)*255,
+     np.array([np.array([100, 100, 200, 200])]),
+     np.array(['2'], dtype=np.str),
+     {'crop_y': (75, 76),
+      'rect_h': (150, 151),
+      'insert_x': (100, 101), },
+     {
+        'max_overlap_area_ratio': 0.99,
+        'min_width_result_ratio': 0.7,
+        'max_height_intersection': 0.3,
+    },)
+])
+def test_cutmix_no_params(params):
+    bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
+        crop_rect_config, process_boxes_config, = params
+
+    cutmix = Cutmix(crop_rect_config, process_boxes_config)
+    img, boxes, labels = cutmix(
+        bg_img,
+        bg_boxes,
+        bg_labels,
+
+        fg_img,
+        fg_boxes,
+        fg_labels,)
+
+    assert img.shape == bg_img.shape

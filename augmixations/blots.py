@@ -2,10 +2,21 @@
 import numpy as np
 
 from .utils import generate_rect_coordinates, unpack_mm_params, generate_parameter
+from .configs import blot_rect_config, blot_params
 
 
 class HandWrittenBlot:
-    def __init__(self, height, width, incline, intensivity, transparency, count):
+    """
+    Description:
+    This class for make some blots on image.
+
+    Init Parameters:
+
+    rect_config (dict) - Config with blot parameters (size and position)
+    params (dict) - Config with blot parameters (incline, transparency, intensivity, count)
+    """
+
+    def __init__(self, rect_config: dict, params: dict):
         try:
             import cv2
         except ImportError:
@@ -21,14 +32,45 @@ class HandWrittenBlot:
         self.cv2 = cv2
         self.bezier = bezier
 
-        self.min_h, self.max_h = unpack_mm_params(height)
-        self.min_w, self.max_w = unpack_mm_params(width)
-        self.min_incline, self.max_incline = unpack_mm_params(incline)
-        self.min_intens, self.max_intens = unpack_mm_params(intensivity)
-        self.min_transp, self.max_transp = unpack_mm_params(transparency)
-        self.count = count
+        self.rect_config = rect_config
+        self.params = params
 
-    def generate_points(self, mask_x, mask_y, mask_w, mask_h, intensivity, incline):
+        for def_key, def_val in blot_rect_config.items():
+            if def_key not in self.rect_config.keys():
+                self.rect_config[def_key] = def_val
+
+        for def_key, def_val in blot_params.items():
+            if def_key not in self.params.keys():
+                self.params[def_key] = def_val
+
+        self.min_x, self.max_x = unpack_mm_params(rect_config['x'])
+        self.min_y, self.max_y = unpack_mm_params(rect_config['y'])
+        self.min_h, self.max_h = unpack_mm_params(rect_config['h'])
+        self.min_w, self.max_w = unpack_mm_params(rect_config['w'])
+
+        self.min_incline, self.max_incline = unpack_mm_params(params['incline'])
+        self.min_intens, self.max_intens = unpack_mm_params(params['intensivity'])
+        self.min_transp, self.max_transp = unpack_mm_params(params['transparency'])
+        self.count = params['count']
+
+    def generate_points(self, mask_x: int, mask_y: int,
+                        mask_w: int, mask_h: int, intensivity: float, incline: int):
+        """
+        Description:
+        Method for points generation. Points using for draw lines between them.
+
+        Parameters:
+        mask_x (int) - Blot position X
+        mask_y (int) - Blot position Y
+        mask_w (int) - Max Blot width
+        mask_h (int) - Max Blot height
+        intensivity (float) - Blot intensivity. Max points count.
+        incline (int) - Shift point by Y-axes.
+
+        Return:
+        points ([X, Y], Where X, Y - lists of int) - points for drawing lines
+        """
+
         points_count = int(intensivity * 20)
 
         point_prer_pixel = points_count / mask_h
@@ -67,7 +109,18 @@ class HandWrittenBlot:
 
         return points
 
-    def draw_bezier_curve(self, image, points):
+    def draw_bezier_curve(self, image: np.array, points: list):
+        """
+        Description:
+        Method for drawing bezier line, using generated points.
+
+        Parameters:
+        image (np.array) - image on wich the blot will be drawn
+        points (list) - list of points for drawing
+
+        Return:
+        image (np.array) - the same image as on input but with blot
+        """
         img = image.copy()
 
         curve = self.bezier.Curve(points, degree=len(points[0]) - 1)
@@ -83,7 +136,18 @@ class HandWrittenBlot:
 
         return img
 
-    def make_handwriting(self, image, configs):
+    def make_handwriting(self, image: np.array, configs: dict):
+        """
+        Description:
+        Method for creating bezier lines and drawing them.
+
+        Parameters:
+        image (np.array) - image on wich the blots will be drawn
+        configs (dict) - config with blot parameters (x, y, h, w, incline, ...)
+
+        Return:
+        bg_img (np.array) - the same image as on input but with blots
+        """
         bg_img = image.copy()
         fg_img = image.copy()
 
@@ -103,13 +167,28 @@ class HandWrittenBlot:
 
         return bg_img
 
-    def generate_configs(self, img_h, img_w):
+    def generate_configs(self, img_h: int, img_w: int):
+        """
+        Description:
+        Method fog configs generating. Configs contains parameters for blots generating.
 
+        Parameters:
+        img_h (int) - image height
+        img_w (int) - image width
+
+        Return:
+        configs (list of dict) - configs with blots parameters (x, y, h, w, incline, ...)
+        """
         configs = []
 
         for _ in range(self.count):
 
-            x1, y1, x2, y2 = generate_rect_coordinates(img_h=img_h, img_w=img_w)
+            x1, y1, x2, y2 = generate_rect_coordinates(
+                img_h=img_h, img_w=img_w,
+                min_x=self.min_x, min_y=self.min_y,
+                max_x=self.max_x, max_y=self.max_y,
+                min_h=self.min_h, min_w=self.min_w,
+                max_h=self.max_h, max_w=self.max_w,)
 
             incline = generate_parameter(self.min_incline, self.max_incline, 'incline')
             intensivity = generate_parameter(self.min_intens, self.max_intens, 'intensivity')
@@ -129,7 +208,20 @@ class HandWrittenBlot:
         return configs
 
     def apply(self, image):
+        """
+        Description:
+        Main method for adding blots on image.
+
+        Parameters:
+        image (np.array) - image on wich the blots will be drawn
+
+        Return:
+        image (np.array) - the same image as on input but with blots
+        """
         img_h, img_w, _ = image.shape
         shades_configs = self.generate_configs(img_h, img_w)
         img = self.make_handwriting(image, shades_configs)
         return img
+
+    def __call__(self, image):
+        return self.apply(image)

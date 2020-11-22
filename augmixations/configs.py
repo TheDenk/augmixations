@@ -1,25 +1,38 @@
 # -*- coding: utf-8 -*-
-crop_rect_config_default = {
-    'crop_min_x': None,
-    'crop_max_x': None,
 
-    'crop_min_y': None,
-    'crop_max_y': None,
+blot_rect_config = {
+    'x': (None, None),
 
-    'min_rect_h': None,
-    'max_rect_h': None,
+    'y': (None, None),
 
-    'min_rect_w': None,
-    'max_rect_w': None,
+    'h': (None, None),
 
-    'insert_min_x': None,
-    'insert_max_x': None,
-
-    'insert_min_y': None,
-    'insert_max_y': None,
+    'w': (None, None),
 }
 
-process_box_config_default = {
+blot_params = {
+    'incline': (-10, 10),
+    'intensivity': (0.5, 0.9),
+    'transparency': (0.05, 0.4),
+    'count': 1,
+}
+
+
+cutmix_crop_rect_config = {
+    'crop_x': (None, None),
+
+    'crop_y': (None, None),
+
+    'rect_h': (None, None),
+
+    'rect_w': (None, None),
+
+    'insert_x': (None, None),
+
+    'insert_y': (None, None),
+}
+
+cutmix_process_box_config = {
     'max_overlap_area_ratio': 0.75,
 
     'min_height_result_ratio': 0.25,
