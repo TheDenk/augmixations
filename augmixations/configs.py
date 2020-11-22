@@ -2,11 +2,8 @@
 
 blot_rect_config = {
     'x': (None, None),
-
     'y': (None, None),
-
     'h': (None, None),
-
     'w': (None, None),
 }
 
@@ -20,15 +17,10 @@ blot_params = {
 
 cutmix_crop_rect_config = {
     'crop_x': (None, None),
-
     'crop_y': (None, None),
-
     'rect_h': (None, None),
-
     'rect_w': (None, None),
-
     'insert_x': (None, None),
-
     'insert_y': (None, None),
 }
 

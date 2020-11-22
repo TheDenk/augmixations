@@ -57,10 +57,13 @@ def test_apply(params):
     assert img.shape == out_img.shape
 
 
-@pytest.mark.parametrize('params', [(np.ones((100, 100, 3), dtype=np.uint8)), ])
+@pytest.mark.parametrize('params', [(np.ones((100, 100, 3), dtype=np.uint8), {}, {}),
+                                    (np.ones((100, 100, 3), dtype=np.uint8), {
+                                     'x': 10, }, {'points_intensivity': 0.9, }),
+                                    (np.ones((100, 100, 3), dtype=np.uint8), None, None), ])
 def test_apply_no_params(params):
-    img = params
-    hand_written_blot = HandWrittenBlot({}, {})
+    img, b_r, b_p = params
+    hand_written_blot = HandWrittenBlot(b_r, b_p)
     out_img = hand_written_blot.apply(img)
 
     assert type(img) == type(out_img)

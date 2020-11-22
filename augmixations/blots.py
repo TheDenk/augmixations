@@ -32,8 +32,8 @@ class HandWrittenBlot:
         self.cv2 = cv2
         self.bezier = bezier
 
-        self.rect_config = rect_config if rect_config is not None else blot_rect_config
-        self.params = params if params is not None else blot_params
+        self.rect_config = blot_rect_config if rect_config is None else rect_config
+        self.params = blot_params if params is None else params
 
         for def_key, def_val in blot_rect_config.items():
             if def_key not in self.rect_config.keys() or self.rect_config[def_key] is None:
@@ -43,15 +43,15 @@ class HandWrittenBlot:
             if def_key not in self.params.keys() or self.params[def_key] is None:
                 self.params[def_key] = def_val
 
-        self.min_x, self.max_x = unpack_mm_params(rect_config['x'])
-        self.min_y, self.max_y = unpack_mm_params(rect_config['y'])
-        self.min_h, self.max_h = unpack_mm_params(rect_config['h'])
-        self.min_w, self.max_w = unpack_mm_params(rect_config['w'])
+        self.min_x, self.max_x = unpack_mm_params(self.rect_config['x'])
+        self.min_y, self.max_y = unpack_mm_params(self.rect_config['y'])
+        self.min_h, self.max_h = unpack_mm_params(self.rect_config['h'])
+        self.min_w, self.max_w = unpack_mm_params(self.rect_config['w'])
 
-        self.min_incline, self.max_incline = unpack_mm_params(params['incline'])
-        self.min_intens, self.max_intens = unpack_mm_params(params['intensivity'])
-        self.min_transp, self.max_transp = unpack_mm_params(params['transparency'])
-        self.count = params['count']
+        self.min_incline, self.max_incline = unpack_mm_params(self.params['incline'])
+        self.min_intens, self.max_intens = unpack_mm_params(self.params['intensivity'])
+        self.min_transp, self.max_transp = unpack_mm_params(self.params['transparency'])
+        self.count = self.params['count']
 
     def generate_points(self, mask_x: int, mask_y: int,
                         mask_w: int, mask_h: int, intensivity: float, incline: int):
