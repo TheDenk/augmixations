@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from .utils import generate_rect_coordinates, unpack_mm_params, generate_parameter
+from .utils import unpack_mm_params, generate_parameter
+from .core import generate_rect_coordinates
 from .configs import blot_rect_config, blot_params
 
 
