@@ -3,8 +3,11 @@ import numpy as np
 import pytest
 
 
-from augmixations.cutmix import shift_fg_rect_and_boxes, \
-    correct_foreground_boxes, Cutmix
+from augmixations.cutmix import (
+    shift_fg_rect_and_boxes,
+    correct_foreground_boxes,
+    Cutmix,
+)
 
 
 @pytest.mark.parametrize('params',

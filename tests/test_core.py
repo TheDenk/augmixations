@@ -2,11 +2,14 @@
 import numpy as np
 import pytest
 
-
-from augmixations.core import generate_rect_coordinates, \
-    insert_image_in_background, check_middle_part_overlap_critical, \
-    correct_box_if_full_side_overlap, correct_box_if_some_alnge_overlap, \
-    correct_background_boxes
+from augmixations.core import (
+    generate_rect_coordinates,
+    insert_image_in_background,
+    check_middle_part_overlap_critical,
+    correct_box_if_full_side_overlap,
+    correct_box_if_some_alnge_overlap,
+    correct_background_boxes,
+)
 
 
 @pytest.mark.parametrize('params',
