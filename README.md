@@ -52,13 +52,13 @@ In progress:
 
   Import:  
 ```python
-from augmixations import Сutmix  
+from augmixations import SmartСutmix  
 ```
   Using:  
 ```python
 #  bg_img - The image into which a rectangle will be inserted  
 #  fg_img - The image from which a random rectangle will be cut 
-cutmix = Cutmix()
+cutmix = SmartCutmix()
 img, boxes, labels = cutmix(bg_img, bg_boxes, bg_labels,
                             fg_img, fg_boxes, fg_labels)  
 ```

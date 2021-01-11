@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.1.0
+-------
+- Renamed Cutmix to SmartCutmix
+- Added SmartCutout
+
 v0.0.4
 -------
 - Changed config type of cutmix
