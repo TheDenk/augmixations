@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from .cutmix import Cutmix
+from .cutmix import SmartCutmix
 from .blots import HandWrittenBlot
+from .cutout import SmartCutout
 
-__version__ = '0.0.4'
+__version__ = '0.1.1'
 
-__all__ = ['Cutmix', 'HandWrittenBlot']
+__all__ = ['SmartCutmix', 'HandWrittenBlot', 'SmartCutout']

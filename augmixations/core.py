@@ -24,11 +24,11 @@ def generate_rect_coordinates(img_h: int, img_w: int,
     (x1, y1, x2, y2) (tuple of ints) -  Rectangle coordinates
     """
 
-    min_h = img_h // 10 if min_h is None else min_h
-    min_w = img_w // 10 if min_w is None else min_w
+    min_h = 1 if min_h is None else min_h
+    min_w = 1 if min_w is None else min_w
 
-    max_h = img_h // 3 if max_h is None else max_h
-    max_w = img_w // 3 if max_w is None else max_w
+    max_h = img_h if max_h is None else max_h
+    max_w = img_w if max_w is None else max_w
 
     rect_h = generate_parameter(min_h, max_h)
     rect_w = generate_parameter(min_w, max_w)

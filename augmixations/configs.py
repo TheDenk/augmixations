@@ -1,5 +1,24 @@
 # -*- coding: utf-8 -*-
 
+cutout_crop_rect_config = {
+    'crop_x': (None, None),
+    'crop_y': (None, None),
+    'rect_h': (100, None),
+    'rect_w': (100, None),
+    'transparency': (0.0, 0.05),
+    'hole_nums': (0, 3),
+}
+
+cutout_process_box_config = {
+    'max_overlap_area_ratio': 0.75,
+
+    'min_height_result_ratio': 0.25,
+    'min_width_result_ratio': 0.25,
+
+    'max_height_intersection': 0.9,
+    'max_width_intersection': 0.9,
+}
+
 blot_rect_config = {
     'x': (None, None),
     'y': (None, None),
@@ -13,7 +32,6 @@ blot_params = {
     'transparency': (0.05, 0.4),
     'count': 1,
 }
-
 
 cutmix_crop_rect_config = {
     'crop_x': (None, None),

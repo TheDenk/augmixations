@@ -6,7 +6,7 @@ import pytest
 from augmixations.cutmix import (
     shift_fg_rect_and_boxes,
     correct_foreground_boxes,
-    Cutmix,
+    SmartCutmix,
 )
 
 
@@ -143,7 +143,7 @@ def test_cutmix(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
         crop_rect_config, process_boxes_config, real_boxes, real_labels = params
 
-    cutmix = Cutmix(crop_rect_config, process_boxes_config)
+    cutmix = SmartCutmix(crop_rect_config, process_boxes_config)
     img, boxes, labels = cutmix(
         bg_img,
         bg_boxes,
@@ -178,7 +178,7 @@ def test_cutmix_no_params(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
         crop_rect_config, process_boxes_config, = params
 
-    cutmix = Cutmix(crop_rect_config, process_boxes_config)
+    cutmix = SmartCutmix(crop_rect_config, process_boxes_config)
     img, boxes, labels = cutmix(
         bg_img,
         bg_boxes,

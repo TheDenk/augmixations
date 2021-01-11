@@ -82,6 +82,9 @@ class HandWrittenBlot:
 
         points = [[], []]
 
+        if lp_min == lp_max or rp_min == rp_max:
+            return points
+
         for i, step in enumerate(range(0, points_count*step_size, step_size)):
 
             if i < points_count // 10:
@@ -127,10 +130,18 @@ class HandWrittenBlot:
         curve = self.bezier.Curve(points, degree=len(points[0]) - 1)
 
         x, y = curve.evaluate(0.01)
+
+        if x is None or y is None or np.isnan(x) or np.isnan(y):
+            return img
+
         x1, y1 = int(x), int(y)
 
         for point in np.arange(0.01, 0.99, 0.02):
             x, y = curve.evaluate(point)
+
+            if x is None or y is None or np.isnan(x) or np.isnan(y):
+                return img
+
             x2, y2 = int(x), int(y)
             img = self.cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), np.random.randint(1, 5))
             x1, y1 = x2, y2
@@ -162,6 +173,8 @@ class HandWrittenBlot:
                     config['points_intensivity'],
                     config['incline'],
                 )
+                if not points:
+                    continue
                 fg_img = self.draw_bezier_curve(fg_img, points)
 
             bg_img = self.cv2.addWeighted(bg_img, config['transparency'], fg_img, 1 - config['transparency'], 0)

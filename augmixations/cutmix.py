@@ -111,11 +111,11 @@ def correct_foreground_boxes(fg_boxes: np.array,
     return new_boxes, new_labels
 
 
-class Cutmix:
+class SmartCutmix:
     """
     Description:
-Cutmix class. This class allows crop part of image from second image and paste it into first image.
-It also changes first and second boxes and labels.
+    CutMix class. This class allows crop part of image from second image and paste it into first image.
+    It also changes first and second boxes and labels.
 
     Init Parameters:
 
