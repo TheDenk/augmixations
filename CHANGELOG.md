@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.1.1
+-------
+- Fixed bug hwb (long int)
+- Fixed bug cutout (holes count)
+
 v0.1.0
 -------
 - Renamed Cutmix to SmartCutmix
