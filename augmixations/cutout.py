@@ -79,14 +79,15 @@ class SmartCutout:
 
             out_img[y1:y2, x1:x2:, :] = (out_img[y1:y2, x1:x2:, :] * transp).astype(np.uint8)
 
-            new_boxes, new_labels = correct_background_boxes(
-                new_boxes, new_labels, rect,
-                self.pb_conf['max_overlap_area_ratio'],
-                self.pb_conf['min_height_result_ratio'],
-                self.pb_conf['min_width_result_ratio'],
-                self.pb_conf['max_height_intersection'],
-                self.pb_conf['max_width_intersection'],
-            )
+            if transp > self.pb_conf['transp_box_visibility']:
+                new_boxes, new_labels = correct_background_boxes(
+                    new_boxes, new_labels, rect,
+                    self.pb_conf['max_overlap_area_ratio'],
+                    self.pb_conf['min_height_result_ratio'],
+                    self.pb_conf['min_width_result_ratio'],
+                    self.pb_conf['max_height_intersection'],
+                    self.pb_conf['max_width_intersection'],
+                )
 
         return out_img, \
             np.array(new_boxes, dtype=np.float32), \

@@ -10,6 +10,8 @@ cutout_crop_rect_config = {
 }
 
 cutout_process_box_config = {
+    'transp_box_visibility': 0.2,
+
     'max_overlap_area_ratio': 0.75,
 
     'min_height_result_ratio': 0.25,
