@@ -134,7 +134,7 @@ class HandWrittenBlot:
         if x is None or y is None or np.isnan(x) or np.isnan(y):
             return img
 
-        x1, y1 = np.uint16(x), np.uint16(y)
+        x1, y1 = np.uint16(x)[0], np.uint16(y)[0]
 
         for point in np.arange(0.01, 0.99, 0.02):
             x, y = curve.evaluate(point)
@@ -142,8 +142,8 @@ class HandWrittenBlot:
             if x is None or y is None or np.isnan(x) or np.isnan(y):
                 return img
 
-            x2, y2 = np.uint16(x), np.uint16(y)
-            print(x1, y1, x2, y2)
+            x2, y2 = np.uint16(x)[0], np.uint16(y)[0]
+
             img = self.cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), np.random.randint(1, 5))
             x1, y1 = x2, y2
 
