@@ -3,10 +3,10 @@
 cutout_crop_rect_config = {
     'crop_x': (None, None),
     'crop_y': (None, None),
-    'rect_h': (100, None),
-    'rect_w': (100, None),
+    'rect_h': (None, None),
+    'rect_w': (None, None),
     'transparency': (0.0, 0.05),
-    'hole_nums': (0, 3),
+    'hole_nums': (1, 1),
 }
 
 cutout_process_box_config = {

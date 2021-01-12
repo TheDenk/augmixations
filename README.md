@@ -54,7 +54,7 @@ In progress:
 
   Import:  
 ```python
-from augmixations import SmartСutmix  
+from augmixations import SmartCutmix  
 ```
   Using:  
 ```python

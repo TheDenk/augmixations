@@ -57,30 +57,36 @@ class SmartCutout:
         rect_min_h, rect_max_h = unpack_mm_params(self.cr_conf['rect_h'])
         rect_min_w, rect_max_w = unpack_mm_params(self.cr_conf['rect_w'])
         min_transp, max_transp = unpack_mm_params(self.cr_conf['transparency'])
+        min_holes, max_holes = unpack_mm_params(self.cr_conf['hole_nums'])
+        holes = generate_parameter(min_holes, max_holes)
 
-        rect = generate_rect_coordinates(
-            img_h=img.shape[0],
-            img_w=img.shape[1],
-            min_x=crop_min_x, min_y=crop_min_y,
-            max_x=crop_max_x, max_y=crop_max_y,
-            min_h=rect_min_h, min_w=rect_min_w,
-            max_h=rect_max_h, max_w=rect_max_w,
-        )
-
-        x1, y1, x2, y2 = rect
-        transp = generate_parameter(min_transp, max_transp)
-
+        new_boxes = boxes.copy()
+        new_labels = labels.copy()
         out_img = img.copy()
-        out_img[y1:y2, x1:x2:, :] = (out_img[y1:y2, x1:x2:, :] * transp).astype(np.uint8)
 
-        new_boxes, new_labels = correct_background_boxes(
-            boxes, labels, rect,
-            self.pb_conf['max_overlap_area_ratio'],
-            self.pb_conf['min_height_result_ratio'],
-            self.pb_conf['min_width_result_ratio'],
-            self.pb_conf['max_height_intersection'],
-            self.pb_conf['max_width_intersection'],
-        )
+        for _ in range(holes):
+            rect = generate_rect_coordinates(
+                img_h=img.shape[0],
+                img_w=img.shape[1],
+                min_x=crop_min_x, min_y=crop_min_y,
+                max_x=crop_max_x, max_y=crop_max_y,
+                min_h=rect_min_h, min_w=rect_min_w,
+                max_h=rect_max_h, max_w=rect_max_w,
+            )
+
+            x1, y1, x2, y2 = rect
+            transp = generate_parameter(min_transp, max_transp)
+
+            out_img[y1:y2, x1:x2:, :] = (out_img[y1:y2, x1:x2:, :] * transp).astype(np.uint8)
+
+            new_boxes, new_labels = correct_background_boxes(
+                new_boxes, new_labels, rect,
+                self.pb_conf['max_overlap_area_ratio'],
+                self.pb_conf['min_height_result_ratio'],
+                self.pb_conf['min_width_result_ratio'],
+                self.pb_conf['max_height_intersection'],
+                self.pb_conf['max_width_intersection'],
+            )
 
         return out_img, \
             np.array(new_boxes, dtype=np.float32), \
