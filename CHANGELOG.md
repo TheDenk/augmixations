@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.2.2
+-------
+- Changed default Mixin transparency to (0.4, 0.6)
+
 v0.2.1
 -------
 - Added Mixin augmentation
