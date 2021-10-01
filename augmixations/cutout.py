@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from .utils import unpack_mm_params, generate_parameter
-from .configs import cutout_process_box_config, cutout_crop_rect_config
-from .core import (
-    generate_rect_coordinates,
-    correct_background_boxes,
-)
+from .configs import cutout_crop_rect_config, cutout_process_box_config
+from .core import correct_background_boxes, generate_rect_coordinates
+from .utils import generate_parameter, unpack_mm_params
 
 
 class Cutout:

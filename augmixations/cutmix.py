@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+from .configs import cutmix_crop_rect_config, cutmix_process_box_config
+from .core import (correct_background_boxes, generate_rect_coordinates,
+                   insert_image_in_background)
 from .utils import unpack_mm_params
-from .core import (
-    generate_rect_coordinates,
-    insert_image_in_background,
-    correct_background_boxes,
-)
-from .configs import (
-    cutmix_crop_rect_config,
-    cutmix_process_box_config
-)
 
 
 def shift_fg_rect_and_boxes(rect: np.array, boxes: np.array, shift_x: int, shift_y: int):

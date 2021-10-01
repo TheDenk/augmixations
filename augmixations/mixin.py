@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from .utils import unpack_mm_params, generate_parameter
+from .utils import generate_parameter, unpack_mm_params
 
 
 class Mixin:
@@ -16,7 +16,9 @@ class Mixin:
               fg_img: np.array,
               fg_boxes: np.array,
               fg_labels: np.array):
-        assert bg_img.shape == fg_img.shape
+        if bg_img.shape != fg_img.shape:
+            raise Exception('Both input images should be equal shape. \
+            Current shapes: bg_img {bg_img.shape}, fg_img {fg_img.shape}')
 
         transp = generate_parameter(self.min_t, self.max_t, 'transparency')
 

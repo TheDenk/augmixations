@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import pytest
-
 from augmixations.mixin import Mixin
 
 
@@ -52,3 +51,27 @@ def test_cutmix(params):
     assert np.array_equal(real_labels, labels)
     assert bg_img.shape == img.shape
     assert fg_img.shape == img.shape
+
+
+@pytest.mark.parametrize('params', [
+    (np.ones((1000, 1000, 3), dtype=np.uint8)*255,
+     np.array([np.array([50, 50, 150, 150])]),
+     np.array(['1'], dtype=str),
+     np.ones((1000, 2000, 3), dtype=np.uint8)*255,
+     np.array([np.array([200, 200, 500, 500])]),
+     np.array(['2'], dtype=str),
+     ),
+])
+def test_cutmix_diff_images(params):
+    bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels = params
+
+    cutmix = Mixin()
+    with pytest.raises(Exception):
+        _, _, _ = cutmix(
+            bg_img,
+            bg_boxes,
+            bg_labels,
+
+            fg_img,
+            fg_boxes,
+            fg_labels,)
