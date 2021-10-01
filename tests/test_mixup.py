@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import pytest
-from augmixations.mixin import Mixin
+from augmixations.mixup import Mixup
 
 
 @pytest.mark.parametrize('params', [
@@ -33,12 +33,12 @@ from augmixations.mixin import Mixin
      np.array(['2', '1'], dtype=str),
      ),
 ])
-def test_cutmix(params):
+def test_mixup(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
         real_boxes, real_labels = params
 
-    cutmix = Mixin()
-    img, boxes, labels = cutmix(
+    mixup = Mixup()
+    img, boxes, labels = mixup(
         bg_img,
         bg_boxes,
         bg_labels,
@@ -62,12 +62,12 @@ def test_cutmix(params):
      np.array(['2'], dtype=str),
      ),
 ])
-def test_cutmix_diff_images(params):
+def test_mixup_diff_images(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels = params
 
-    cutmix = Mixin()
+    mixup = Mixup()
     with pytest.raises(Exception):
-        _, _, _ = cutmix(
+        _, _, _ = mixup(
             bg_img,
             bg_boxes,
             bg_labels,

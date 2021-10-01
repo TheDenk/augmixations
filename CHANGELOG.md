@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.2.21
+-------
+- Renamed Mixin to Mixup
+
 v0.2.2
 -------
 - Changed default Mixin transparency to (0.4, 0.6)

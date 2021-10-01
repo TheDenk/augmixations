@@ -13,7 +13,7 @@ For more details you can see the <a href="https://github.com/TheDenk/augmixation
 Current augmentations:  
   - Cutmix (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/cutmix_example.ipynb">Colab Example</a>, <a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage">Advanced Usage</a>)  
   - Cutout (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/cutout_example.ipynb">Colab Example</a>)  
-  - Mixin (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/mixin_example.ipynb">Colab Example</a>)    
+  - Mixup (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/mixin_example.ipynb">Colab Example</a>)    
    
 ## Cutmix  
 #### Dependencies  
@@ -32,7 +32,7 @@ Current augmentations:
 
   Import:  
 ```python
-from augmixations import Cutmix, Cutout, Mixin  
+from augmixations import Cutmix, Cutout, Mixup  
 ```
   Using Cutmix:  
 ```python
@@ -51,10 +51,10 @@ new_img, new_boxes, new_labels = cutmix(img, boxes, labels)
 ```
   Done.  
   
-  Using Mixin:  
+  Using Mixup:  
 ```python
-mixin = Mixin()
-image, boxes, labels = mixin(first_img, first_boxes, first_labels, 
+mixup = Mixup()
+image, boxes, labels = mixup(first_img, first_boxes, first_labels, 
                              second_img, second_boxes, second_labels)
 ```
   Done.  

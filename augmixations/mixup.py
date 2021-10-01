@@ -4,7 +4,7 @@ import numpy as np
 from .utils import generate_parameter, unpack_mm_params
 
 
-class Mixin:
+class Mixup:
     def __init__(self, transparency=(0.4, 0.6)):
         self.min_t, self.max_t = unpack_mm_params(transparency)
 
