@@ -6,7 +6,7 @@ import pytest
 from augmixations.cutmix import (
     shift_fg_rect_and_boxes,
     correct_foreground_boxes,
-    SmartCutmix,
+    Cutmix,
 )
 
 
@@ -90,22 +90,22 @@ def test_correct_foreground_boxes(params):
 @pytest.mark.parametrize('params', [
     (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
      np.array([np.array([50, 50, 150, 150])]),
-     np.array(['1'], dtype=np.str),
+     np.array(['1'], dtype=str),
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
-     np.array(['2'], dtype=np.str),
+     np.array(['2'], dtype=str),
      {'crop_x': (75, 76), 'crop_y': (75, 76), 'rect_h': (150, 151), 'rect_w': (150, 151),
       'insert_x': (100, 101), 'insert_y': (100, 101), }, None,
      np.array([np.array([50, 50, 150, 150]), np.array([125, 125, 225, 225])]),
-     np.array(['1', '2'], dtype=np.str)
+     np.array(['1', '2'], dtype=str)
      ),
     # Игнорируем боксы по минимальной высоте
     (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
      np.array([np.array([50, 50, 150, 150])]),
-     np.array(['1'], dtype=np.str),
+     np.array(['1'], dtype=str),
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
-     np.array(['2'], dtype=np.str),
+     np.array(['2'], dtype=str),
      {'crop_x': (75, 76), 'crop_y': (175, 176), 'rect_h': (150, 151),
       'rect_w': (150, 151), 'insert_x': (100, 101), 'insert_y': (100, 101), },
      {
@@ -121,10 +121,10 @@ def test_correct_foreground_boxes(params):
     ),
     (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
      np.array([np.array([50, 50, 150, 150])]),
-     np.array(['1'], dtype=np.str),
+     np.array(['1'], dtype=str),
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
-     np.array(['2'], dtype=np.str),
+     np.array(['2'], dtype=str),
      {'crop_x': (175, 176), 'crop_y': (75, 76),
       'rect_h': (150, 151), 'rect_w': (150, 151),
       'insert_x': (100, 101), 'insert_y': (100, 101), },
@@ -143,7 +143,7 @@ def test_cutmix(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
         crop_rect_config, process_boxes_config, real_boxes, real_labels = params
 
-    cutmix = SmartCutmix(crop_rect_config, process_boxes_config)
+    cutmix = Cutmix(crop_rect_config, process_boxes_config)
     img, boxes, labels = cutmix(
         bg_img,
         bg_boxes,
@@ -161,10 +161,10 @@ def test_cutmix(params):
 @pytest.mark.parametrize('params', [
     (np.ones((1000, 2000, 3), dtype=np.uint8)*255,
      np.array([np.array([50, 50, 150, 150])]),
-     np.array(['1'], dtype=np.str),
+     np.array(['1'], dtype=str),
      np.ones((600, 800, 3), dtype=np.uint8)*255,
      np.array([np.array([100, 100, 200, 200])]),
-     np.array(['2'], dtype=np.str),
+     np.array(['2'], dtype=str),
      {'crop_y': (75, 76),
       'rect_h': (150, 151),
       'insert_x': (100, 101), },
@@ -178,7 +178,7 @@ def test_cutmix_no_params(params):
     bg_img, bg_boxes, bg_labels, fg_img, fg_boxes, fg_labels, \
         crop_rect_config, process_boxes_config, = params
 
-    cutmix = SmartCutmix(crop_rect_config, process_boxes_config)
+    cutmix = Cutmix(crop_rect_config, process_boxes_config)
     img, boxes, labels = cutmix(
         bg_img,
         bg_boxes,

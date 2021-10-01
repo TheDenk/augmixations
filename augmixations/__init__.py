@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from .cutmix import SmartCutmix
-from .cutout import SmartCutout
+from .cutmix import Cutmix
+from .cutout import Cutout
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 
-__all__ = ['SmartCutmix', 'SmartCutout']
+__all__ = ['Cutmix', 'Cutout']
