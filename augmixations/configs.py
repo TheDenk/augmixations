@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 cutout_crop_rect_config = {
-    'crop_x': (None, None),
+    'crop_x': (None, None),  #  Min max
     'crop_y': (None, None),
     'rect_h': (None, None),
     'rect_w': (None, None),
@@ -21,22 +21,8 @@ cutout_process_box_config = {
     'max_width_intersection': 0.9,
 }
 
-blot_rect_config = {
-    'x': (None, None),
-    'y': (None, None),
-    'h': (None, None),
-    'w': (None, None),
-}
-
-blot_params = {
-    'incline': (-10, 10),
-    'intensivity': (0.5, 0.9),
-    'transparency': (0.05, 0.4),
-    'count': 1,
-}
-
 cutmix_crop_rect_config = {
-    'crop_x': (None, None),
+    'crop_x': (None, None),  #  Min max
     'crop_y': (None, None),
     'rect_h': (None, None),
     'rect_w': (None, None),
