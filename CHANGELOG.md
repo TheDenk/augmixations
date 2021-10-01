@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.2.0
+-------
+- Move Blots to https://github.com/TheDenk/hwb
+- Renamed Cutmix and Cutout (was removed prefix Smart)
+
 v0.1.1
 -------
 - Fixed bug hwb (long int)
