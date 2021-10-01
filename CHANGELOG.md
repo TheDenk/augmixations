@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.2.1
+-------
+- Added Mixin augmentation
+
 v0.2.0
 -------
 - Move Blots to https://github.com/TheDenk/hwb
