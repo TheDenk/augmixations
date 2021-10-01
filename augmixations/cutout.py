@@ -9,7 +9,7 @@ from .core import (
 )
 
 
-class SmartCutout:
+class Cutout:
     """
     Description:
     CutOut class. This class allows crop part of image and fill this place some color.
