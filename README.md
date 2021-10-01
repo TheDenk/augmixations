@@ -13,7 +13,7 @@ For more details you can see the <a href="https://github.com/TheDenk/augmixation
 Current augmentations:  
   - Cutmix (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/cutmix_example.ipynb">Colab Example</a>, <a href="https://github.com/TheDenk/augmixations/wiki/Cutmix-Advanced-Usage">Advanced Usage</a>)  
   - Cutout (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/cutout_example.ipynb">Colab Example</a>)  
-  - Mixup (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/mixin_example.ipynb">Colab Example</a>)    
+  - Mixup (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/mixup_example.ipynb">Colab Example</a>)    
    
 ## Cutmix  
 #### Dependencies  

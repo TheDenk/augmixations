@@ -5,7 +5,7 @@ Some augmentations that I hasn't found in other repositories and libraries.
 ### Current augmentations:  
 * Cutmix (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/cutmix_example.ipynb">Colab Example</a>)
 * Cutout (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/cutout_example.ipynb">Colab Example</a>)
-* Mixup (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/mixin_example.ipynb">Colab Example</a>) 
+* Mixup (<a href="https://github.com/TheDenk/augmixations/blob/master/examples/mixup_example.ipynb">Colab Example</a>) 
 
 ## Getting Started  
 
