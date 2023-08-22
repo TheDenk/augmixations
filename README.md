@@ -3,7 +3,7 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Generic badge](https://img.shields.io/badge/python-3.6|3.7|3.8-blue.svg)](https://shields.io/)
 [![Downloads](https://pepy.tech/badge/augmixations)](https://pepy.tech/project/augmixations)
-[![Github All Releases](https://img.shields.io/github/downloads/TheDenk/augmixations/total.svg)]()
+  
 # augmixations
 Some augmentations that I hasn't found in other repositories and libraries.  
   
